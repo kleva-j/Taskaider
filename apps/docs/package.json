@@ -5,12 +5,5 @@
   "scripts": {
     "dev": "mintlify dev --port 3003",
     "start": "pnpm dev"
-  },
-  "dependencies": {
-    "ui": "workspace:*"
-  },
-  "devDependencies": {
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
   }
 }
