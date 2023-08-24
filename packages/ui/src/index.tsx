@@ -1,3 +1,8 @@
+// styles import
+import "./styles.css";
+
 // component exports
-export * from "./button";
-export * from "./header";
+export * from "@/components";
+
+// utils exports
+export * from "@/lib/utils";
