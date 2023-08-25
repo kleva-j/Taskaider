@@ -27,3 +27,6 @@ export * from "@/components/dropdown-menu";
 export * from "@/components/collapsible";
 export * from "@/components/command";
 export * from "@/components/context-menu";
+export * from "@/components/popover";
+export * from "@/components/alert-dialog";
+export * from "@/components/navigation-menu";
