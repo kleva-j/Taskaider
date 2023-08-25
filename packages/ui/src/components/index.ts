@@ -30,3 +30,7 @@ export * from "@/components/context-menu";
 export * from "@/components/popover";
 export * from "@/components/alert-dialog";
 export * from "@/components/navigation-menu";
+export * from "@/components/scroll-area";
+export * from "@/components/tabs";
+export * from "@/components/table";
+export * from "@/components/toggle";
