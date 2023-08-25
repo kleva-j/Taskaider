@@ -9,3 +9,7 @@ export * from "@/components/select";
 export * from "@/components/separator";
 export * from "@/components/skeleton";
 export * from "@/components/slider";
+export * from "@/components/label";
+export * from "@/components/input";
+export * from "@/components/avatar";
+export * from "@/components/badge";
