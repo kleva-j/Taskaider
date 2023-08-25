@@ -24,3 +24,6 @@ export * from "@/components/form";
 export * from "@/components/dialog";
 export * from "@/components/hover-card";
 export * from "@/components/dropdown-menu";
+export * from "@/components/collapsible";
+export * from "@/components/command";
+export * from "@/components/context-menu";
