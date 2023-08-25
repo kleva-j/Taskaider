@@ -16,3 +16,7 @@ export * from "@/components/badge";
 export * from "@/components/aspect-ratio";
 export * from "@/components/accordion";
 export * from "@/components/calendar";
+export * from "@/components/card";
+export * from "@/components/menubar";
+export * from "@/components/progress";
+export * from "@/components/radio-group";
