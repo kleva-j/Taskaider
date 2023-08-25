@@ -34,3 +34,6 @@ export * from "@/components/scroll-area";
 export * from "@/components/tabs";
 export * from "@/components/table";
 export * from "@/components/toggle";
+export * from "@/components/sheet";
+export * from "@/components/toaster";
+export * from "@/components/toast";
