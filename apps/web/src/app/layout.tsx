@@ -1,5 +1,5 @@
+import "../styles/index.css";
 import "ui/styles.css";
-// import '../styles/index.css'
 
 import { type PropsWithChildren } from "react";
 
