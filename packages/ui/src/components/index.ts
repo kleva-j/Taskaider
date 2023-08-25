@@ -5,3 +5,7 @@ export * from "@/components/checkbox";
 export * from "@/components/tooltip";
 export * from "@/components/switch";
 export * from "@/components/alert";
+export * from "@/components/select";
+export * from "@/components/separator";
+export * from "@/components/skeleton";
+export * from "@/components/slider";
