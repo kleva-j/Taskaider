@@ -6,4 +6,12 @@ module.exports = {
   // prefix ui lib classes to avoid conflicting with the app
   prefix: "ui-",
   presets: [sharedConfig],
+  theme: {
+    extends: {
+      fontFamily: {
+        sans: "var(--font-sans)",
+        mono: "var(--font-mono)",
+      },
+    },
+  },
 };
