@@ -1,17 +1,13 @@
 import "../styles/index.css";
 import "ui/styles.css";
 
+import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
-
-import { type PropsWithChildren } from "react";
 
 import { ThemeProvider } from "@/context/theme-provider";
 import { fontSans } from "@/lib/fonts";
 
-export const metadata: Metadata = {
-  title: "Taskaider",
-  description: "My beautiful task management app.",
-};
+import Provider from "@/app/_trpc/Provider";
 
 export default function RootLayout({
   children,
@@ -19,10 +15,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fontSans.variable} ui-font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <Provider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Taskaider",
+  description: "My beautiful task management app.",
+};
