@@ -22,6 +22,12 @@ Run the following command at the root of your documentation (where mint.json is)
 mintlify dev
 ```
 
+### Start Dev Server
+
+```
+"dev": "mintlify dev --port 3003",
+```
+
 ### 😎 Publishing Changes
 
 Changes will be deployed to production automatically after pushing to the default branch.
