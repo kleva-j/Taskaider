@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1693179636414,
+      "tag": "0000_noisy_ogun",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1693225707755,
+      "tag": "0001_pretty_zombie",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1693226520320,
+      "tag": "0002_mixed_power_man",
+      "breakpoints": true
+    }
+  ]
+}
