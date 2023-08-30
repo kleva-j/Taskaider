@@ -158,7 +158,7 @@ importers:
     dependencies:
       '@libsql/client':
         specifier: ^0.3.1
-        version: 0.3.1
+        version: 0.3.1(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
       '@paralleldrive/cuid2':
         specifier: ^2.2.2
         version: 2.2.2
@@ -181,15 +181,27 @@ importers:
       '@types/node':
         specifier: ^20.5.6
         version: 20.5.6
+      bufferutil:
+        specifier: ^4.0.7
+        version: 4.0.7
+      encoding:
+        specifier: ^0.1.13
+        version: 0.1.13
       eslint-config-custom:
         specifier: workspace:*
         version: link:../eslint-config-custom
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.5.6)(typescript@5.2.2)
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+      utf-8-validate:
+        specifier: ^6.0.3
+        version: 6.0.3
 
   packages/eslint-config-custom:
     devDependencies:
@@ -1368,10 +1380,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@libsql/client@0.3.1:
+  /@libsql/client@0.3.1(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-43/zF8fJguXd6ENwYhddpbR05bDVx3BQQUZ/BsJ0b4zLJge+WFa2smC3ILVGqvVu4ZoixbC0sfLTdVPdd2NjDA==}
     dependencies:
-      '@libsql/hrana-client': 0.4.4
+      '@libsql/hrana-client': 0.4.4(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
       better-sqlite3: 8.5.2
       js-base64: 3.7.5
     transitivePeerDependencies:
@@ -1380,11 +1392,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@libsql/hrana-client@0.4.4:
+  /@libsql/hrana-client@0.4.4(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-BevUg0UBRLs5AEqn0fjrMcl49xCtwuFavgK4MzCb3PTtxpEbQ24oGXctspN9drBiUVmqSZr7go887aiLLzSO3A==}
     dependencies:
-      '@libsql/isomorphic-fetch': 0.1.6
-      '@libsql/isomorphic-ws': 0.1.3
+      '@libsql/isomorphic-fetch': 0.1.6(encoding@0.1.13)
+      '@libsql/isomorphic-ws': 0.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       js-base64: 3.7.5
     transitivePeerDependencies:
       - bufferutil
@@ -1392,20 +1404,20 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@libsql/isomorphic-fetch@0.1.6:
+  /@libsql/isomorphic-fetch@0.1.6(encoding@0.1.13):
     resolution: {integrity: sha512-8qhxEDmVBDb54E9xdW1xqw3zLNShkMZpf5YQU3PvwjtKNLOPde59Oqez+RnZHsYkt9zQxxOF+7gSHVJeP/UWqg==}
     dependencies:
       '@types/node-fetch': 2.6.4
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@libsql/isomorphic-ws@0.1.3:
+  /@libsql/isomorphic-ws@0.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-54dZXgYwWDKsnfWv8GCVYvhn6RDlqFDGAc8EQMd941yvGMsGzo06Gn6Iyjw//nJ1iJO97FbXgoQ1apikoFD/WA==}
     dependencies:
       '@types/ws': 8.5.5
-      ws: 8.13.0
+      ws: 8.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -3548,6 +3560,7 @@ packages:
   /acorn@8.10.0:
     resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: true
 
   /agent-base@7.1.0:
@@ -3871,6 +3884,13 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+
+  /bufferutil@4.0.7:
+    resolution: {integrity: sha512-kukuqc39WOHtdxtw4UScxF/WVnMFVSQVKhtx3AjZJzhd0RGZZldcrfSEbVsWWe6KNH253574cq5F+wpv0G9pJw==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.6.1
 
   /builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
@@ -4674,7 +4694,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      '@libsql/client': 0.3.1
+      '@libsql/client': 0.3.1(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -4692,6 +4712,11 @@ packages:
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
+
+  /encoding@0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    dependencies:
+      iconv-lite: 0.6.3
 
   /end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -5895,6 +5920,12 @@ packages:
       safer-buffer: 2.1.2
     dev: true
 
+  /iconv-lite@0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      safer-buffer: 2.1.2
+
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -6861,7 +6892,7 @@ packages:
     resolution: {integrity: sha512-VzW+TAk2wE4X9maiKMlT+GsPU4OMmR1U9CrHSmd3DFLn2IcZ9VJ6M6BBugGfYUnPCLSYxXdZy17M0BEJyhUTwg==}
     dev: false
 
-  /node-fetch@2.7.0:
+  /node-fetch@2.7.0(encoding@0.1.13):
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
@@ -6870,8 +6901,13 @@ packages:
       encoding:
         optional: true
     dependencies:
+      encoding: 0.1.13
       whatwg-url: 5.0.0
     dev: false
+
+  /node-gyp-build@4.6.1:
+    resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
+    hasBin: true
 
   /node-plop@0.26.3:
     resolution: {integrity: sha512-Cov028YhBZ5aB7MdMWJEmwyBig43aGL5WT4vdoB28Oitau1zZAcHUn8Sgfk9HM33TqhtLJ9PlM/O0Mv+QpV/4Q==}
@@ -7832,7 +7868,6 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-    dev: true
 
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
@@ -8493,6 +8528,37 @@ packages:
       yn: 3.1.1
     dev: true
 
+  /ts-node@10.9.1(@types/node@20.5.6)(typescript@5.2.2):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 20.5.6
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
     dependencies:
@@ -8801,6 +8867,13 @@ packages:
       react: 18.2.0
     dev: false
 
+  /utf-8-validate@6.0.3:
+    resolution: {integrity: sha512-uIuGf9TWQ/y+0Lp+KGZCMuJWc3N9BHA+l/UmHd/oUHwJJDeysyTRxNQVkbzsIWfGFbRe3OcgML/i0mvVRPOyDA==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.6.1
+
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -8940,7 +9013,7 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  /ws@8.13.0:
+  /ws@8.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -8951,6 +9024,9 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dependencies:
+      bufferutil: 4.0.7
+      utf-8-validate: 6.0.3
     dev: false
 
   /xtend@4.0.2:
