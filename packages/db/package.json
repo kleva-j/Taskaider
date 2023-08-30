@@ -6,9 +6,11 @@
   "scripts": {
     "generate": "drizzle-kit generate:sqlite",
     "push": "drizzle-kit push:sqlite",
+    "migrate": "ts-node --esm src/migrate.mts",
     "studio": "drizzle-kit studio",
     "with-env": "dotenv -e .env --",
-    "dev": "pnpm with-env drizzle-kit studio --port 5556"
+    "dev": "pnpm with-env drizzle-kit studio --port 5556",
+    "seed": "bun src/seed.mts"
   },
   "dependencies": {
     "@libsql/client": "^0.3.1",
@@ -21,8 +23,12 @@
   },
   "devDependencies": {
     "@types/node": "^20.5.6",
+    "bufferutil": "^4.0.7",
+    "encoding": "^0.1.13",
     "eslint-config-custom": "workspace:*",
+    "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "utf-8-validate": "^6.0.3"
   }
 }
