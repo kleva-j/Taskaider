@@ -10,7 +10,7 @@ export const availableStatus = [
   "done",
   "cancelled",
 ] as const;
-export const defaultTags = ["documentation", "bugs", "feature"] as const;
+export const defaultLabels = ["documentation", "bugs", "feature"] as const;
 export const priorities = ["low", "medium", "high"] as const;
 
 export const StatusEnum = z.enum(availableStatus);
@@ -23,7 +23,7 @@ export const tasks = sqliteTable("tasks", {
   status: text("status", { enum: availableStatus }).default("backlog"),
   title: text("title", { length: 256 }).default("").notNull(),
   authorId: text("author_id").default(""),
-  tag: text("tag").default(""),
+  label: text("label").default(""),
   priority: text("priority", { enum: priorities }).default("low"),
   createdAt: integer("created_at", { mode: "timestamp" }).default(
     sql`(strftime('%s', 'now'))`,
