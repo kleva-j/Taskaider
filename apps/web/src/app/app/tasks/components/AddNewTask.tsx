@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultTags, priorities } from "@taskaider/db/src/schema";
+import { defaultLabels, priorities } from "@taskaider/db/src/schema";
 import { PlusIcon } from "lucide-react";
 import {
   RadioGroupItem,
@@ -34,7 +34,7 @@ export const AddNewTask = () => {
           <span className="sr-only">New task</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="ui-max-w-sm max-w-sm">
+      <DialogContent className="ui-max-w-sm max-w-sm border-border">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
         </DialogHeader>
@@ -46,7 +46,7 @@ export const AddNewTask = () => {
             <Input
               id="title"
               className="ui-col-span-3"
-              placeholder={"Take out the trash."}
+              placeholder={`"Take out the trash."`}
             />
           </div>
           <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
@@ -55,7 +55,7 @@ export const AddNewTask = () => {
             </Label>
             <RadioGroup defaultValue="low" className="ui-flex flex ui-gap-x-2">
               {priorities.map((item) => (
-                <div className="flex items-center space-x-2">
+                <div key={item} className="flex items-center space-x-2">
                   <RadioGroupItem value={item} id={item} />
                   <Label htmlFor={item} className="ui-capitalize">
                     {item}
@@ -66,20 +66,27 @@ export const AddNewTask = () => {
           </div>
 
           <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
-            <Label htmlFor="tag" className="ui-text-right">
-              Tag
+            <Label htmlFor="label" className="ui-text-right">
+              Label
             </Label>
             <Select>
-              <SelectTrigger id="tag" className="ui-col-start-2 ui-col-span-2">
+              <SelectTrigger
+                id="label"
+                className="ui-col-start-2 ui-col-span-2"
+              >
                 <SelectValue
                   className="ui-capitalize"
-                  placeholder="Select a tag..."
+                  placeholder="Select a label..."
                 />
               </SelectTrigger>
               <SelectContent position="popper">
-                {defaultTags.map((tag) => (
-                  <SelectItem key={tag} value={tag} className="ui-capitalize">
-                    {tag}
+                {defaultLabels.map((label) => (
+                  <SelectItem
+                    key={label}
+                    value={label}
+                    className="ui-capitalize"
+                  >
+                    {label}
                   </SelectItem>
                 ))}
               </SelectContent>
