@@ -11,7 +11,7 @@ import { db } from "@taskaider/db";
 
 export type CreateContextOptions = {
   auth: SignedInAuthObject | SignedOutAuthObject | null;
-  req: CreateNextContextOptions["req"];
+  req?: CreateNextContextOptions["req"];
 };
 
 const createContextInner = async (opts: CreateContextOptions) => {

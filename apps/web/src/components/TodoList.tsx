@@ -7,18 +7,11 @@ export default function TodoList() {
   const createTask = trpc.task.create.useMutation({
     onSettled: () => getTasks.refetch(),
   });
-  const closeTask = trpc.task.update.useMutation({
-    onSettled: () => getTasks.refetch(),
-  });
 
   const [content, setContent] = useState("");
 
   const handleClick = async () => {
     await createTask.mutateAsync(content).then(() => setContent(""));
-  };
-
-  const handleCheck = async (id: string, checked: boolean) => {
-    await closeTask.mutateAsync({ id, status: checked ? "open" : "closed" });
   };
 
   return (
@@ -29,12 +22,8 @@ export default function TodoList() {
             key={task.id}
             className="ui-flex ui-space-x-2 ui-my-2 ui-items-center"
           >
-            <Checkbox
-              id={`check-${task.id}`}
-              checked={task.status === "closed"}
-              onClick={() => handleCheck(task.id, task.status === "closed")}
-            />
-            <Label htmlFor={`check-${task.id}`}>{task.description}</Label>
+            <Checkbox id={`check-${task.id}`} />
+            <Label htmlFor={`check-${task.id}`}>{task.title}</Label>
           </div>
         ))}
       </div>
