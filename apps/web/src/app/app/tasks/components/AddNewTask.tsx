@@ -34,11 +34,11 @@ export const AddNewTask = () => {
           <span className="sr-only">New task</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="ui-max-w-sm max-w-sm border-border">
+      <DialogContent className="ui-max-w-sm max-w-sm ui-border-border">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
         </DialogHeader>
-        <form className="ui-grid ui-gap-4 ui-py-4">
+        <form className="ui-grid ui-gap-4 ui-py-4" name="add_new_task">
           <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
             <Label htmlFor="title" className="ui-text-right">
               Title
@@ -69,7 +69,7 @@ export const AddNewTask = () => {
             <Label htmlFor="label" className="ui-text-right">
               Label
             </Label>
-            <Select>
+            <Select defaultValue={defaultLabels[0]}>
               <SelectTrigger
                 id="label"
                 className="ui-col-start-2 ui-col-span-2"

@@ -67,11 +67,11 @@ export function DataTable<TData, TValue>({
   return (
     <div className="ui-space-y-4">
       <DataTableToolbar table={table} />
-      <div className="ui-rounded-md ui-border">
+      <div className="ui-rounded-md ui-border ui-border-border">
         <Table>
-          <TableHeader>
+          <TableHeader className="ui-border-border">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="ui-border-border">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -93,6 +93,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="ui-border-border"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
