@@ -28,7 +28,7 @@ export function DataTablePagination<TData>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-      <div className="ui-flex ui-items-center ui-space-x-6 ui-lg:space-x-8">
+      <div className="ui-flex ui-items-center ui-space-x-6 lg:space-x-8">
         <div className="ui-flex ui-items-center ui-space-x-2">
           <p className="ui-text-sm ui-font-medium">Rows per page</p>
           <Select
@@ -56,12 +56,12 @@ export function DataTablePagination<TData>({
         <div className="ui-flex ui-items-center ui-space-x-2">
           <Button
             variant="outline"
-            className="ui-hidden ui-h-8 ui-w-8 ui-p-0 ui-lg:flex"
+            className="ui-hidden ui-h-8 ui-w-8 ui-p-0 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to first page</span>
-            <DoubleArrowLeftIcon className="ui-h-4 ui-w-4" />
+            <DoubleArrowLeftIcon className="ui-h-4 ui-w-4 ui-bg-red-400" />
           </Button>
           <Button
             variant="outline"
@@ -83,7 +83,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="ui-hidden ui-h-8 ui-w-8 ui-p-0 ui-lg:flex"
+            className="ui-hidden ui-h-8 ui-w-8 ui-p-0 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
