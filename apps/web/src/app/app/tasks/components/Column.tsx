@@ -16,7 +16,7 @@ export const columns: ColumnDef<Task>[] = [
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="ui-translate-y-[2px]"
+        className="translate-y-[2px]"
       />
     ),
     cell: ({ row }) => (
@@ -24,7 +24,7 @@ export const columns: ColumnDef<Task>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="ui-translate-y-[2px]"
+        className="translate-y-[2px]"
       />
     ),
     enableSorting: false,
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Task" />
     ),
-    cell: ({ row }) => <div className="ui-w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -48,9 +48,9 @@ export const columns: ColumnDef<Task>[] = [
       const label = labels.find((label) => label.value === row.original.label);
 
       return (
-        <div className="ui-flex ui-space-x-2">
+        <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="ui-max-w-[500px] ui-truncate ui-font-medium">
+          <span className="max-w-[500px] truncate font-medium">
             {row.getValue("title")}
           </span>
         </div>
@@ -72,9 +72,9 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <div className="ui-flex ui-w-[100px] ui-items-center">
+        <div className="flex w-[100px] items-center">
           {status.icon && (
-            <status.icon className="ui-mr-2 ui-h-4 ui-w-4 ui-text-muted-foreground" />
+            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{status.label}</span>
         </div>
@@ -101,7 +101,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex items-center">
           {priority.icon && (
-            <priority.icon className="ui-mr-2 ui-h-4 ui-w-4 ui-text-muted-foreground" />
+            <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{priority.label}</span>
         </div>

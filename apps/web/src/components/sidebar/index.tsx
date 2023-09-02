@@ -19,10 +19,10 @@ export default function Sidebar() {
   if (pathname.includes("/tasks/")) pathname = "/tasks";
 
   return (
-    <aside className="ui-w-12 ui-flex ui-flex-col ui-justify-between ui-items-center ui-py-2">
+    <aside className="w-12 flex flex-col justify-between items-center py-2">
       <TooltipProvider delayDuration={800} skipDelayDuration={500}>
         <LayoutGroup>
-          <nav className="ui-flex ui-flex-col ui-gap-y-2 ui-items-center">
+          <nav className="flex flex-col gap-y-2 items-center">
             {Object.entries(navItems).map(([path, { name, icon, label }]) => {
               const props = { name, icon, label, path };
               return (
@@ -41,7 +41,7 @@ export default function Sidebar() {
             })}
           </nav>
         </LayoutGroup>
-        <nav className="ui-py-2">
+        <nav className="py-2">
           <UserProfile />
         </nav>
       </TooltipProvider>

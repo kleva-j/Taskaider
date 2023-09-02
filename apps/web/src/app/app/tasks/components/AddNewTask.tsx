@@ -25,39 +25,35 @@ export const AddNewTask = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          size="icon"
-          variant="outline"
-          className="ui-ml-auto rounded-full"
-        >
-          <PlusIcon className="ui-h-4 ui-w-4" />
+        <Button size="icon" variant="outline" className="ml-auto rounded-full">
+          <PlusIcon className="h-4 w-4" />
           <span className="sr-only">New task</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="ui-max-w-sm max-w-sm ui-border-border">
+      <DialogContent className="max-w-sm border-border">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
         </DialogHeader>
-        <form className="ui-grid ui-gap-4 ui-py-4" name="add_new_task">
-          <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
-            <Label htmlFor="title" className="ui-text-right">
+        <form className="grid gap-4 py-4" name="add_new_task">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">
               Title
             </Label>
             <Input
               id="title"
-              className="ui-col-span-3"
+              className="col-span-3"
               placeholder={`"Take out the trash."`}
             />
           </div>
-          <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
-            <Label htmlFor="name" className="ui-text-right">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
               Priority
             </Label>
-            <RadioGroup defaultValue="low" className="ui-flex flex ui-gap-x-2">
+            <RadioGroup defaultValue="low" className="flex gap-x-2">
               {priorities.map((item) => (
                 <div key={item} className="flex items-center space-x-2">
                   <RadioGroupItem value={item} id={item} />
-                  <Label htmlFor={item} className="ui-capitalize">
+                  <Label htmlFor={item} className="capitalize">
                     {item}
                   </Label>
                 </div>
@@ -65,27 +61,20 @@ export const AddNewTask = () => {
             </RadioGroup>
           </div>
 
-          <div className="ui-grid ui-grid-cols-4 ui-items-center ui-gap-4">
-            <Label htmlFor="label" className="ui-text-right">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="label" className="text-right">
               Label
             </Label>
             <Select defaultValue={defaultLabels[0]}>
-              <SelectTrigger
-                id="label"
-                className="ui-col-start-2 ui-col-span-2"
-              >
+              <SelectTrigger id="label" className="col-start-2 col-span-2">
                 <SelectValue
-                  className="ui-capitalize"
+                  className="capitalize"
                   placeholder="Select a label..."
                 />
               </SelectTrigger>
               <SelectContent position="popper">
                 {defaultLabels.map((label) => (
-                  <SelectItem
-                    key={label}
-                    value={label}
-                    className="ui-capitalize"
-                  >
+                  <SelectItem key={label} value={label} className="capitalize">
                     {label}
                   </SelectItem>
                 ))}

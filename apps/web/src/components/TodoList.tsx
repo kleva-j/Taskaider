@@ -15,19 +15,16 @@ export default function TodoList() {
   };
 
   return (
-    <div className="ui-flex ui-flex-col-reverse">
-      <div className="ui-my-5 ui-text-3xl pl-2">
+    <div className="flex flex-col-reverse">
+      <div className="my-5 text-3xl pl-2">
         {getTasks?.data?.map((task) => (
-          <div
-            key={task.id}
-            className="ui-flex ui-space-x-2 ui-my-2 ui-items-center"
-          >
+          <div key={task.id} className="flex space-x-2 my-2 items-center">
             <Checkbox id={`check-${task.id}`} />
             <Label htmlFor={`check-${task.id}`}>{task.title}</Label>
           </div>
         ))}
       </div>
-      <div className="ui-flex ui-gap-x-2">
+      <div className="flex gap-x-2">
         <Input
           type="text"
           value={content}

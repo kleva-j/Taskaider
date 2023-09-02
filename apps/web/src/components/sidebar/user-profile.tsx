@@ -27,7 +27,7 @@ export default function UserProfile() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="ui-w-40 ui-border-border"
+        className="w-40 border-border"
         align="end"
         forceMount
       >

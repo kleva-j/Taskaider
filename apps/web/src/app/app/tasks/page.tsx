@@ -33,7 +33,7 @@ export default async function () {
   const tasks = await getTasks();
 
   return (
-    <div className="ui-flex ui-h-full ui-flex-1 ui-flex-col ui-space-y-8 ui-p-8">
+    <div className="flex h-full flex-1 flex-col space-y-8 p-8">
       <PageHeader />
       <DataTable data={tasks} columns={columns} />
     </div>
