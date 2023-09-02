@@ -18,15 +18,15 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="ui-flex ui-items-center ui-justify-between">
-      <div className="ui-flex ui-flex-1 ui-items-center ui-space-x-2">
+    <div className="flex items-center justify-between">
+      <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="ui-h-8 ui-max-w-[250px]"
+          className="h-8 max-w-[250px]"
         />
         {table.getColumn("status") && (
           <DataTableFacetedFilter
@@ -46,10 +46,10 @@ export function DataTableToolbar<TData>({
           <Button
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
-            className="ui-h-8 ui-px-2 ui-lg:px-3"
+            className="h-8 px-2 lg:px-3"
           >
             Reset
-            <Cross2Icon className="ui-ml-2 ui-h-4 ui-w-4" />
+            <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
         )}
       </div>

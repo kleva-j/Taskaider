@@ -10,5 +10,14 @@
     { "pattern": "packages/*/" }
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "Taskaider_db",
+      "database": "${workspaceFolder:Taskaider}/packages/db/db.sqlite"
+    }
+  ]
 }

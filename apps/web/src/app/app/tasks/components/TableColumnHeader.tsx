@@ -31,36 +31,36 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("ui-flex ui-items-center ui-space-x-2", className)}>
+    <div className={cn("flex items-center space-x-2", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="ui--ml-3 ui-h-8 ui-data-[state=open]:bg-accent"
+            className="-ml-3 h-8 data-[state=open]:bg-accent"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
-              <ArrowDownIcon className="ui-ml-2 ui-h-4 ui-w-4" />
+              <ArrowDownIcon className="ml-2 h-4 w-4" />
             ) : column.getIsSorted() === "asc" ? (
-              <ArrowUpIcon className="ui-ml-2 ui-h-4 ui-w-4" />
+              <ArrowUpIcon className="ml-2 h-4 w-4" />
             ) : (
-              <CaretSortIcon className="ui-ml-2 ui-h-4 ui-w-4" />
+              <CaretSortIcon className="ml-2 h-4 w-4" />
             )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUpIcon className="ui-mr-2 ui-h-3.5 ui-w-3.5 ui-text-muted-foreground/70" />
+            <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDownIcon className="ui-mr-2 ui-h-3.5 ui-w-3.5 ui-text-muted-foreground/70" />
+            <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeNoneIcon className="ui-mr-2 ui-h-3.5 ui-w-3.5 ui-text-muted-foreground/70" />
+            <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Hide
           </DropdownMenuItem>
         </DropdownMenuContent>

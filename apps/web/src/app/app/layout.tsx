@@ -7,11 +7,11 @@ type Props = PropsWithChildren;
 
 export default function AuthedLayout(props: Props): JSX.Element {
   return (
-    <section className="ui-divide-y-[1px] ui-flex ui-flex-col ui-h-screen ui-divide-border">
+    <section className="divide-y-[1px] flex flex-col h-screen divide-border">
       <Header />
-      <section className="ui-flex ui-divide-x-[0.5px] ui-flex-1 ui-divide-border">
+      <section className="flex divide-x-[0.5px] flex-1 divide-border">
         <Sidebar />
-        <article className="ui-p-4 ui-flex-1">{props.children}</article>
+        <article className="p-4 flex-1">{props.children}</article>
       </section>
     </section>
   );

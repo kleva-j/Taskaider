@@ -23,7 +23,7 @@ export default function NavItem(props: NavItemProps) {
       {...rest}
     >
       <Link href={path}>
-        <Icon className="ui-text-foreground" size={20} />
+        <Icon className="text-foreground" size={20} />
       </Link>
     </Button>
   );

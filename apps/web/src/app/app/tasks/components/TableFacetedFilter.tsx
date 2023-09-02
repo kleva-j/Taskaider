@@ -39,23 +39,23 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="ui-h-8 ui-border-dashed">
-          <PlusCircledIcon className="ui-mr-2 ui-h-4 ui-w-4" />
+        <Button variant="outline" size="sm" className="h-8 border-dashed">
+          <PlusCircledIcon className="mr-2 h-4 w-4" />
           {title}
           {selectedValues?.size > 0 && (
             <>
-              <Separator orientation="vertical" className="ui-mx-2 ui-h-4" />
+              <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
                 variant="secondary"
-                className="ui-rounded-sm ui-px-1 ui-font-normal ui-lg:hidden"
+                className="rounded-sm px-1 font-normal lg:hidden"
               >
                 {selectedValues.size}
               </Badge>
-              <div className="ui-hidden ui-space-x-1 ui-lg:flex">
+              <div className="hidden space-x-1 lg:flex">
                 {selectedValues.size > 2 ? (
                   <Badge
                     variant="secondary"
-                    className="ui-rounded-sm ui-px-1 ui-font-normal"
+                    className="rounded-sm px-1 font-normal"
                   >
                     {selectedValues.size} selected
                   </Badge>
@@ -66,7 +66,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                       <Badge
                         variant="secondary"
                         key={option.value}
-                        className="ui-rounded-sm ui-px-1 ui-font-normal"
+                        className="rounded-sm px-1 font-normal"
                       >
                         {option.label}
                       </Badge>
@@ -77,7 +77,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="ui-w-[200px] ui-p-0" align="start">
+      <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
@@ -102,20 +102,20 @@ export function DataTableFacetedFilter<TData, TValue>({
                   >
                     <div
                       className={cn(
-                        "ui-mr-2 ui-flex ui-h-4 ui-w-4 ui-items-center ui-justify-center ui-rounded-sm ui-border ui-border-primary",
+                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
-                          ? "ui-bg-primary ui-text-primary-foreground"
-                          : "ui-opacity-50 ui-[&_svg]:invisible",
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible",
                       )}
                     >
-                      <CheckIcon className="ui-h-4 ui-w-4" />
+                      <CheckIcon className="h-4 w-4" />
                     </div>
                     {option.icon && (
-                      <option.icon className="ui-mr-2 ui-h-4 ui-w-4 ui-text-muted-foreground" />
+                      <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
-                      <span className="ui-ml-auto ui-flex ui-h-4 ui-w-4 ui-items-center ui-justify-center ui-font-mono ui-text-xs">
+                      <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
                         {facets.get(option.value)}
                       </span>
                     )}
@@ -129,7 +129,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 <CommandGroup>
                   <CommandItem
                     onSelect={() => column?.setFilterValue(undefined)}
-                    className="ui-justify-center ui-text-center"
+                    className="justify-center text-center"
                   >
                     Clear filters
                   </CommandItem>

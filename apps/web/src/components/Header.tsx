@@ -4,9 +4,9 @@ import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default function Header() {
   return (
-    <header className="ui-flex ui-justify-between mx-auto w-full ui-px-4 ui-h-12 ui-items-center">
+    <header className="flex justify-between mx-auto w-full px-4 h-12 items-center">
       <span className="text-sm">LOGO</span>
-      <nav className="ui-flex ui-gap-x-4 ui-items-center">
+      <nav className="flex gap-x-4 items-center">
         <ThemeSwitcher />
       </nav>
     </header>

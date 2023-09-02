@@ -14,7 +14,7 @@ export default function RootLayout({
 }: PropsWithChildren): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fontSans.variable} ui-font-sans ui-bg-background`}>
+      <body className={`${fontSans.variable} font-sans bg-background`}>
         <Provider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
