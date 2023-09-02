@@ -57,9 +57,11 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        <DropdownMenuItem className="group text-destructive hover:text-destructive">
+          <span className="group-hover:text-destructive">Delete</span>
+          <DropdownMenuShortcut className="group-hover:text-destructive">
+            ⌘⌫
+          </DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -49,7 +49,11 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
+          {label && (
+            <Badge variant="outline" className="border-border">
+              {label.label}
+            </Badge>
+          )}
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue("title")}
           </span>
