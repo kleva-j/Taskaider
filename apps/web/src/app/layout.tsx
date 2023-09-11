@@ -4,22 +4,18 @@ import "ui/styles.css";
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
-import { ThemeProvider } from "@/context/theme-provider";
+import { Providers } from "@/components/Providers";
+import { ClerkProvider } from "@clerk/nextjs";
 import { fontSans } from "@/lib/fonts";
+import { env } from "@/env";
 
-import Provider from "@/app/_trpc/Provider";
-
-export default function RootLayout({
-  children,
-}: PropsWithChildren): JSX.Element {
+export default function RootLayout(props: PropsWithChildren): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fontSans.variable} font-sans bg-background`}>
-        <Provider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
-        </Provider>
+        <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+          <Providers>{props.children}</Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
