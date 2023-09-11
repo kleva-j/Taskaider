@@ -14,7 +14,7 @@ const navItems = {
   "/app/projects": { name: "projects", icon: FolderKanban, label: "projects" },
 };
 
-export default function Sidebar() {
+export default function Sidebar(): JSX.Element {
   let pathname = usePathname() || "/";
   if (pathname.includes("/tasks/")) pathname = "/tasks";
 

@@ -11,18 +11,31 @@ import {
   AvatarFallback,
   DropdownMenu,
   AvatarImage,
+  Skeleton,
   Button,
   Avatar,
 } from "ui";
 
+import { useUser } from "@clerk/nextjs";
+
 export default function UserProfile() {
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  if (!isLoaded || !isSignedIn) {
+    return <Skeleton className="h-7 w-7 rounded-full" />;
+  }
+
+  const { imageUrl, primaryEmailAddress, firstName } = user;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-7 w-7 rounded-full">
           <Avatar className="h-7 w-7">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarImage src={imageUrl} alt="@shadcn" />
+            <AvatarFallback className="uppercase">
+              {firstName?.slice(0, 2)}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -33,9 +46,9 @@ export default function UserProfile() {
       >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
+            <p className="text-sm font-medium leading-none">{firstName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
+              {primaryEmailAddress?.emailAddress}
             </p>
           </div>
         </DropdownMenuLabel>
