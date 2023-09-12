@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/app/app/tasks/components/PageHeader";
-import { DataTable } from "@/app/app/tasks/components/DataTable";
-import { columns } from "@/app/app/tasks/components/Column";
-import { taskSchema } from "@/app/app/tasks/_data/schema";
+import { PageHeader } from "@/app/dashboard/tasks/components/PageHeader";
+import { DataTable } from "@/app/dashboard/tasks/components/DataTable";
+import { columns } from "@/app/dashboard/tasks/components/Column";
+import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
 import { serverClient } from "@/server";
 import { promises as fs } from "fs";
 import { z } from "zod";

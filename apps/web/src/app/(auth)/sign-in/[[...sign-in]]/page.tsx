@@ -56,7 +56,7 @@ export default function SignInPage(): JSX.Element {
         }
         if (res.status === "complete") {
           setActive({ session: res.createdSessionId });
-          push("/app");
+          push("/dashboard");
           return;
         }
       }

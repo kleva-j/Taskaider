@@ -13,8 +13,8 @@ export default function UserVerification() {
     async function verify() {
       try {
         await handleMagicLinkVerification({
-          redirectUrl: "http://localhost:3000/app",
-          redirectUrlComplete: "http://localhost:3000/app",
+          redirectUrl: "http://localhost:3000/dashboard",
+          redirectUrlComplete: "http://localhost:3000/dashboard",
         });
         setStatus("verified");
       } catch (err: any) {
@@ -33,7 +33,7 @@ export default function UserVerification() {
 
   return (
     <div className="p-4">
-      Successfully Verified. Click <Link href="/app">here</Link> if not
+      Successfully Verified. Click <Link href="/dashboard">here</Link> if not
       redirected automatically.
     </div>
   );

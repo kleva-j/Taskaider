@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function AuthLayout({ children }: PropsWithChildren) {
   const { userId } = auth();
 
-  if (userId) redirect("/app");
+  if (userId) redirect("/dashboard");
 
   return (
     <main className="flex items-center justify-center h-screen">

@@ -9,9 +9,13 @@ import { usePathname } from "next/navigation";
 import { LayoutGroup } from "framer-motion";
 
 const navItems = {
-  "/app": { name: "app", icon: Home, label: "home" },
-  "/app/tasks": { name: "tasks", icon: ListTodo, label: "tasks" },
-  "/app/projects": { name: "projects", icon: FolderKanban, label: "projects" },
+  "/dashboard": { name: "dashboard", icon: Home, label: "home" },
+  "/dashboard/tasks": { name: "tasks", icon: ListTodo, label: "tasks" },
+  "/dashboard/projects": {
+    name: "projects",
+    icon: FolderKanban,
+    label: "projects",
+  },
 };
 
 export default function Sidebar(): JSX.Element {

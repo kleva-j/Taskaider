@@ -51,7 +51,7 @@ export default function SignUpPage(): JSX.Element {
       }
       if (su.status === "complete") {
         setActive({ session: su.createdSessionId || "" });
-        push("/app");
+        push("/dashboard");
         return;
       }
     }
