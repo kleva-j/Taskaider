@@ -11,8 +11,11 @@ import { env } from "@/env";
 
 export default function RootLayout(props: PropsWithChildren): JSX.Element {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${fontSans.variable} font-sans bg-background`}>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body
+        className={`${fontSans.variable} font-sans bg-background`}
+        suppressHydrationWarning={true}
+      >
         <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           <Providers>{props.children}</Providers>
         </ClerkProvider>
