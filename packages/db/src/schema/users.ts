@@ -1,7 +1,6 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
-import { sql, relations } from "drizzle-orm";
-import { tasks } from "./tasks";
+import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
   id: text("id")
@@ -18,17 +17,6 @@ export const users = sqliteTable("users", {
     sql`(strftime('%s', 'now'))`,
   ),
 });
-
-export const usersRelations = relations(users, ({ many }) => ({
-  tasks: many(tasks),
-}));
-
-export const tasksRelations = relations(tasks, ({ one }) => ({
-  author: one(users, {
-    fields: [tasks.authorId],
-    references: [users.id],
-  }),
-}));
 
 export type User = typeof users.$inferSelect; // return type when queried
 export type InsertUser = typeof users.$inferInsert; // insert type

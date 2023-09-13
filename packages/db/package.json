@@ -10,7 +10,7 @@
     "studio": "drizzle-kit studio",
     "with-env": "dotenv -e .env --",
     "dev": "pnpm with-env drizzle-kit studio --port 5556",
-    "seed": "bun src/seed.mts"
+    "seed": "bun src/seed.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.3.1",
