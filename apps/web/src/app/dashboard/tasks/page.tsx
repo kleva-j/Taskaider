@@ -19,16 +19,15 @@ const handler = serverClient({ auth: null, req: undefined });
 
 async function getTasks() {
   const data = await fs.readFile(
-    path.join(process.cwd(), "./src/app/app/tasks/_data/tasks.json"),
+    path.join(process.cwd(), "./src/app/dashboard/tasks/_data/tasks.json"),
   );
 
-  const tasks = JSON.parse(data.toString());
-
-  return z.array(taskSchema).parse(tasks);
+  return z.array(taskSchema).parse(JSON.parse(data.toString()));
 }
 
 export default async function () {
   const _tasks = await handler.user.getAll();
+  console.log(_tasks);
 
   const tasks = await getTasks();
 

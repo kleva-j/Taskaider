@@ -23,7 +23,6 @@ export * from "@/components/switch";
 export * from "@/components/select";
 export * from "@/components/button";
 export * from "@/components/slider";
-export * from "@/components/header";
 export * from "@/components/avatar";
 export * from "@/components/toggle";
 export * from "@/components/dialog";
@@ -37,3 +36,8 @@ export * from "@/components/toast";
 export * from "@/components/tabs";
 export * from "@/components/form";
 export * from "@/components/card";
+
+/** Layouts */
+export * from "@/components/layout/header";
+export * from "@/components/layout/features";
+export * from "@/components/layout/hero";
