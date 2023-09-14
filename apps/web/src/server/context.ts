@@ -7,7 +7,7 @@ import {
 } from "@clerk/nextjs/api";
 
 import { getAuth } from "@clerk/nextjs/server";
-import { db } from "@taskaider/db";
+import { db } from "@/lib/db";
 
 export type CreateContextOptions = {
   auth: SignedInAuthObject | SignedOutAuthObject | null;

@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { users } from "@taskaider/db/src/schema";
-import { db } from "@taskaider/db";
+import { db } from "@/lib/db";
 import { z } from "zod";
 
 export const UserRouter = createTRPCRouter({
