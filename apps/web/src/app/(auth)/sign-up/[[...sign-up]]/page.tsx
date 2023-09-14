@@ -4,6 +4,7 @@ import { Alert, AlertDescription, AlertTitle, useToast } from "ui";
 import { AlertCircle, Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSignUp } from "@clerk/nextjs";
+import { getBaseUrl } from "@/lib/auth";
 import {
   SignInOAuthBtn,
   FormSchemaType,
@@ -15,7 +16,6 @@ export default function SignUpPage(): JSX.Element {
   const [isLoading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
   const [expired, setExpired] = useState(false);
-
   const { push } = useRouter();
   const { toast } = useToast();
 
@@ -37,7 +37,7 @@ export default function SignUpPage(): JSX.Element {
       });
 
       const su = await magicLink?.startMagicLinkFlow({
-        redirectUrl: "http://localhost:3000/verification",
+        redirectUrl: `${getBaseUrl()}/verification`,
       });
 
       const verification = su.verifications.emailAddress;
@@ -51,7 +51,7 @@ export default function SignUpPage(): JSX.Element {
       }
       if (su.status === "complete") {
         setActive({ session: su.createdSessionId || "" });
-        push("/app");
+        push("/dashboard");
         return;
       }
     }

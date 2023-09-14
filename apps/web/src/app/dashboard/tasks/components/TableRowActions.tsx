@@ -1,8 +1,8 @@
 "use client";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { taskSchema } from "@/app/app/tasks/_data/schema";
-import { labels } from "@/app/app/tasks/_data";
+import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
+import { labels } from "@/app/dashboard/tasks/_data";
 import { Row } from "@tanstack/react-table";
 import {
   DropdownMenuSubContent,

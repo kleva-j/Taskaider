@@ -19,7 +19,7 @@ export function SignInOAuthBtn(props: ButtonProps) {
       return signIn.authenticateWithRedirect({
         strategy,
         redirectUrl: "/sso-callback",
-        redirectUrlComplete: "/app",
+        redirectUrlComplete: "/dashboard",
       });
     }
   };

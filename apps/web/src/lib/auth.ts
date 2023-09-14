@@ -12,3 +12,12 @@ export const navigationHandle = {
     paragraph: "Enter your email below to create your account",
   },
 };
+
+export function getBaseUrl() {
+  if (typeof window !== "undefined" && window.location) {
+    return "";
+  }
+  return process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.VERCEL_URL;
+}

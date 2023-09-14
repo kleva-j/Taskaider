@@ -1,10 +1,10 @@
 "use client";
 
-import { Task } from "@/app/app/tasks/_data/schema";
+import { Task } from "@/app/dashboard/tasks/_data/schema";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge, Checkbox } from "ui";
 
-import { labels, priorities, statuses } from "@/app/app/tasks/_data";
+import { labels, priorities, statuses } from "@/app/dashboard/tasks/_data";
 import { DataTableColumnHeader } from "./TableColumnHeader";
 import { DataTableRowActions } from "./TableRowActions";
 

@@ -1,7 +1,8 @@
 import { PriorityEnum, StatusEnum, tasks } from "@taskaider/db/src/schema";
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
-import { db, eq } from "@taskaider/db";
+import { eq } from "@taskaider/db";
+import { db } from "@/lib/db";
 import { z } from "zod";
 
 const authorIds = [

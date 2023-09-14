@@ -1,7 +1,8 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
-import { sql } from "drizzle-orm";
+import { sql, relations } from "drizzle-orm";
 import { z } from "zod";
+import { users } from "./users";
 
 export const availableStatus = [
   "backlog",
@@ -22,7 +23,9 @@ export const tasks = sqliteTable("tasks", {
     .primaryKey(),
   status: text("status", { enum: availableStatus }).default("backlog"),
   title: text("title", { length: 256 }).default("").notNull(),
-  authorId: text("author_id").default(""),
+  authorId: text("author_id")
+    .references(() => users.id)
+    .default(""),
   label: text("label").default(""),
   priority: text("priority", { enum: priorities }).default("low"),
   createdAt: integer("created_at", { mode: "timestamp" }).default(
@@ -32,6 +35,17 @@ export const tasks = sqliteTable("tasks", {
     sql`(strftime('%s', 'now'))`,
   ),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  tasks: many(tasks),
+}));
+
+export const tasksRelations = relations(tasks, ({ one }) => ({
+  author: one(users, {
+    fields: [tasks.authorId],
+    references: [users.id],
+  }),
+}));
 
 export type Task = typeof tasks.$inferSelect; // return type when queried
 export type InsertTask = typeof tasks.$inferInsert; // insert type

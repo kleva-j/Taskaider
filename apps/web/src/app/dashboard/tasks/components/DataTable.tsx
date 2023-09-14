@@ -25,8 +25,8 @@ import {
   Table,
 } from "ui";
 
-import { DataTablePagination } from "@/app/app/tasks/components/TablePagination";
-import { DataTableToolbar } from "@/app/app/tasks/components/TableToolbar";
+import { DataTablePagination } from "@/app/dashboard/tasks/components/TablePagination";
+import { DataTableToolbar } from "@/app/dashboard/tasks/components/TableToolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

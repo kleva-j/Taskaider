@@ -2,13 +2,12 @@ import "dotenv/config";
 
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
-
-import { type User, tasks, users } from "./schema";
 import { env } from "../env.mjs";
+import { tasks, users } from "./schema";
 
 async function main() {
   const db = drizzle(
-    createClient({ url: env.DATABASE_URL, authToken: env.DATABASE_AUTH_TOKEN })
+    createClient({ url: env.DATABASE_URL, authToken: env.DATABASE_AUTH_TOKEN }),
   );
   console.log("Seeding database ");
 

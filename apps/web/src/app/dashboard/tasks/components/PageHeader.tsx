@@ -1,6 +1,6 @@
 "use client";
 
-import { AddNewTask } from "@/app/app/tasks/components/AddNewTask";
+import { AddNewTask } from "@/app/dashboard/tasks/components/AddNewTask";
 
 export const PageHeader = () => {
   return (
