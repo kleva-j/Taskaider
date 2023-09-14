@@ -4,6 +4,7 @@ import { Alert, AlertDescription, AlertTitle, useToast } from "ui";
 import { AlertCircle, Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSignIn } from "@clerk/nextjs";
+import { getBaseUrl } from "@/lib/auth";
 import { useState } from "react";
 
 import {
@@ -43,7 +44,7 @@ export default function SignInPage(): JSX.Element {
 
         const res = await magicLink.startMagicLinkFlow({
           emailAddressId: firstFactor?.emailAddressId,
-          redirectUrl: "http://localhost:3000/verification",
+          redirectUrl: `${getBaseUrl()}/verification`,
         });
 
         const verification = res.firstFactorVerification;

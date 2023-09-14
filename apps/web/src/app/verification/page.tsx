@@ -2,6 +2,7 @@
 
 import { MagicLinkErrorCode, isMagicLinkError, useClerk } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
+import { getBaseUrl } from "@/lib/auth";
 
 import Link from "next/link";
 
@@ -13,8 +14,8 @@ export default function UserVerification() {
     async function verify() {
       try {
         await handleMagicLinkVerification({
-          redirectUrl: "http://localhost:3000/dashboard",
-          redirectUrlComplete: "http://localhost:3000/dashboard",
+          redirectUrl: `${getBaseUrl()}/dashboard`,
+          redirectUrlComplete: `${getBaseUrl()}/dashboard`,
         });
         setStatus("verified");
       } catch (err: any) {
