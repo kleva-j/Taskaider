@@ -26,6 +26,3 @@ jobs:
 
       - name: Install deps (with cache)
         run: pnpm install
-
-      - name: Build
-        run: pnpm build
