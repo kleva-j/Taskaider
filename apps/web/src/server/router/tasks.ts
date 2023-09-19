@@ -1,5 +1,6 @@
 import { PriorityEnum, StatusEnum, tasks } from "@taskaider/db/src/schema";
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
+import { addTaskFormSchema } from "@/lib/formSchema";
 import { TRPCError } from "@trpc/server";
 import { eq } from "@taskaider/db";
 import { db } from "@/lib/db";
@@ -12,13 +13,15 @@ const authorIds = [
 ];
 
 export const TaskRouter = createTRPCRouter({
-  create: publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    await db
-      .insert(tasks)
-      .values({ title: input, authorId: authorIds[0] })
-      .returning()
-      .get();
-  }),
+  create: publicProcedure
+    .input(addTaskFormSchema)
+    .mutation(async ({ input }) => {
+      await db
+        .insert(tasks)
+        .values({ ...input, authorId: authorIds[0] })
+        .returning()
+        .get();
+    }),
   getAll: publicProcedure.query(
     async () => await db.select().from(tasks).all(),
   ),

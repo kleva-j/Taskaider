@@ -4,18 +4,19 @@ import { PageHeader } from "@/app/dashboard/tasks/components/PageHeader";
 import { DataTable } from "@/app/dashboard/tasks/components/DataTable";
 import { columns } from "@/app/dashboard/tasks/components/Column";
 import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
-import { serverClient } from "@/server";
 import { promises as fs } from "fs";
 import { z } from "zod";
 
 import path from "path";
 
+// import { serverClient } from "@/server";
+// const handler = serverClient({ auth: null, req: undefined });
+// await handler.user.getAll();
+
 export const metadata: Metadata = {
   title: "Tasks",
   description: "A task and issue tracker.",
 };
-
-const handler = serverClient({ auth: null, req: undefined });
 
 async function getTasks() {
   const data = await fs.readFile(
@@ -26,9 +27,6 @@ async function getTasks() {
 }
 
 export default async function () {
-  const _tasks = await handler.user.getAll();
-  console.log(_tasks);
-
   const tasks = await getTasks();
 
   return (

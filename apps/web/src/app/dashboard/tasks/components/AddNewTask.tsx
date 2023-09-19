@@ -1,7 +1,13 @@
 "use client";
 
 import { defaultLabels, priorities } from "@taskaider/db/src/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addTaskFormSchema } from "@/lib/formSchema";
+import { useForm } from "react-hook-form";
+import { trpc } from "@/app/_trpc/client";
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import { z } from "zod";
 import {
   RadioGroupItem,
   DialogTrigger,
@@ -14,78 +20,158 @@ import {
   SelectValue,
   RadioGroup,
   SelectItem,
+  FormControl,
+  FormLabel,
+  FormField,
+  FormItem,
+  useToast,
+  Button,
   Select,
   Dialog,
-  Button,
   Input,
-  Label,
+  Form,
 } from "ui";
 
+export type FormSchemaType = z.infer<typeof addTaskFormSchema>;
+
+const values: FormSchemaType = {
+  title: "",
+  priority: "medium",
+  label: "feature",
+  status: "backlog",
+};
+
 export const AddNewTask = () => {
+  const form = useForm<FormSchemaType>({
+    resolver: zodResolver(addTaskFormSchema),
+    defaultValues: values,
+  });
+
+  const [open, setOpen] = useState(false);
+
+  const { toast } = useToast();
+
+  const addTask = trpc.task.create.useMutation({
+    onError: () =>
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with adding new task.",
+        variant: "destructive",
+      }),
+    onSuccess: () =>
+      toast({
+        title: "🎉 New task added!",
+        description: "You have successfull added a new task.",
+        className: "border-teal-400",
+      }),
+    onSettled: () => setOpen(false),
+  });
+
+  const onSubmit = (values: FormSchemaType) => addTask.mutate(values);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="icon" variant="outline" className="ml-auto rounded-full">
           <PlusIcon className="h-4 w-4" />
           <span className="sr-only">New task</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-sm border-border">
+      <DialogContent className="max-w-md border-border">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
         </DialogHeader>
-        <form className="grid gap-4 py-4" name="add_new_task">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">
-              Title
-            </Label>
-            <Input
-              id="title"
-              className="col-span-3"
-              placeholder={`"Take out the trash."`}
+        <Form {...form}>
+          <form
+            name="add_new_task"
+            className="grid gap-y-6"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <FormField
+              name="title"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                  <FormLabel className="text-right">Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      autoCorrect="off"
+                      autoCapitalize="none"
+                      placeholder={`eg: "Take out the trash."`}
+                      className="invalid:border-red-500 col-span-3"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Priority
-            </Label>
-            <RadioGroup defaultValue="low" className="flex gap-x-2">
-              {priorities.map((item) => (
-                <div key={item} className="flex items-center space-x-2">
-                  <RadioGroupItem value={item} id={item} />
-                  <Label htmlFor={item} className="capitalize">
-                    {item}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
+            <FormField
+              name="priority"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                  <FormLabel className="text-right">Priority</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      className="flex gap-x-4 items-center"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      {priorities.map((item) => (
+                        <FormItem
+                          key={item}
+                          className="flex items-center space-y-0 gap-x-2"
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={item} />
+                          </FormControl>
+                          <FormLabel className="capitalize mt-0">
+                            {item}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="label" className="text-right">
-              Label
-            </Label>
-            <Select defaultValue={defaultLabels[0]}>
-              <SelectTrigger id="label" className="col-start-2 col-span-2">
-                <SelectValue
-                  className="capitalize"
-                  placeholder="Select a label..."
-                />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                {defaultLabels.map((label) => (
-                  <SelectItem key={label} value={label} className="capitalize">
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </form>
-
-        <DialogFooter>
-          <Button type="submit">Add</Button>
-        </DialogFooter>
+            <FormField
+              name="label"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                  <FormLabel className="text-right">Label</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="col-start-2 col-span-2 capitalize">
+                        <SelectValue placeholder="Select a label..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent position="popper">
+                      {defaultLabels.map((label) => (
+                        <SelectItem
+                          key={label}
+                          value={label}
+                          className="capitalize"
+                        >
+                          {label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <DialogFooter>
+              <Button type="submit">Add</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
