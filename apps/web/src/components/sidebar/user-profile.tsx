@@ -16,10 +16,11 @@ import {
   Avatar,
 } from "ui";
 
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 export default function UserProfile() {
   const { isLoaded, isSignedIn, user } = useUser();
+  const { signOut } = useClerk();
 
   if (!isLoaded || !isSignedIn) {
     return <Skeleton className="h-7 w-7 rounded-full" />;
@@ -64,7 +65,7 @@ export default function UserProfile() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
