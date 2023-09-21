@@ -1,7 +1,7 @@
 "use client";
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { labels } from "@/app/dashboard/tasks/_data";
 import { Row } from "@tanstack/react-table";
 import {
@@ -18,6 +18,8 @@ import {
   DropdownMenu,
   Button,
 } from "ui";
+import { UseTaskContext } from "@/context/task-provider";
+import { actions } from "@/lib/constants";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -27,6 +29,8 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original);
+
+  const { dispatch } = UseTaskContext();
 
   return (
     <DropdownMenu>
@@ -57,7 +61,13 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="group text-destructive hover:text-destructive">
+        <DropdownMenuItem
+          className="group text-destructive hover:text-destructive"
+          onClick={() => {
+            const id = row.getValue("id") as string;
+            dispatch({ type: actions.DELETE_TASK, payload: { id } });
+          }}
+        >
           <span className="group-hover:text-destructive">Delete</span>
           <DropdownMenuShortcut className="group-hover:text-destructive">
             ⌘⌫

@@ -1,13 +1,14 @@
 "use client";
 
 import { defaultLabels, priorities } from "@taskaider/db/src/schema";
+import { addTaskDefaultValues } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addTaskFormSchema } from "@/lib/formSchema";
+import { AddTaskSchemaType } from "@/types";
 import { useForm } from "react-hook-form";
 import { trpc } from "@/app/_trpc/client";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { z } from "zod";
 import {
   RadioGroupItem,
   DialogTrigger,
@@ -32,19 +33,10 @@ import {
   Form,
 } from "ui";
 
-export type FormSchemaType = z.infer<typeof addTaskFormSchema>;
-
-const values: FormSchemaType = {
-  title: "",
-  priority: "medium",
-  label: "feature",
-  status: "backlog",
-};
-
 export const AddNewTask = () => {
-  const form = useForm<FormSchemaType>({
+  const form = useForm<AddTaskSchemaType>({
     resolver: zodResolver(addTaskFormSchema),
-    defaultValues: values,
+    defaultValues: addTaskDefaultValues,
   });
 
   const [open, setOpen] = useState(false);
@@ -67,7 +59,7 @@ export const AddNewTask = () => {
     onSettled: () => setOpen(false),
   });
 
-  const onSubmit = (values: FormSchemaType) => addTask.mutate(values);
+  const onSubmit = (values: AddTaskSchemaType) => addTask.mutate(values);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

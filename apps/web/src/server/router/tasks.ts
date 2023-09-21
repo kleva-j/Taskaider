@@ -60,4 +60,13 @@ export const TaskRouter = createTRPCRouter({
         .get();
       return result;
     }),
+  delete: publicProcedure
+    .input(z.object({ id: z.string().cuid2() }))
+    .mutation(async ({ input }) => {
+      const deletedTask = await db
+        .delete(tasks)
+        .where(eq(tasks.id, input.id))
+        .returning({ deletedId: tasks.id });
+      return deletedTask;
+    }),
 });
