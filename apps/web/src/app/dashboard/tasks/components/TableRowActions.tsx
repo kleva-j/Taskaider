@@ -18,8 +18,8 @@ import {
   DropdownMenu,
   Button,
 } from "ui";
-import { UseTaskContext } from "@/context/task-provider";
-import { actions } from "@/lib/constants";
+
+import Link from "next/link";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -30,7 +30,10 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original);
 
-  const { dispatch } = UseTaskContext();
+  const id = row.getValue("id") as string;
+  const title = row.getValue("title") as string;
+  const status = row.getValue("status") as string;
+  const priority = row.getValue("priority") as string;
 
   return (
     <DropdownMenu>
@@ -44,7 +47,16 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link
+            href={{
+              pathname: "/dashboard/tasks/edit",
+              query: { id, title, status, priority },
+            }}
+          >
+            Edit
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -63,15 +75,19 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="group text-destructive hover:text-destructive"
-          onClick={() => {
-            const id = row.getValue("id") as string;
-            dispatch({ type: actions.DELETE_TASK, payload: { id } });
-          }}
+          asChild
         >
-          <span className="group-hover:text-destructive">Delete</span>
-          <DropdownMenuShortcut className="group-hover:text-destructive">
-            ⌘⌫
-          </DropdownMenuShortcut>
+          <Link
+            href={{
+              pathname: "/dashboard/tasks/delete",
+              query: { id },
+            }}
+          >
+            <span className="group-hover:text-destructive">Delete</span>
+            <DropdownMenuShortcut className="group-hover:text-destructive">
+              ⌘⌫
+            </DropdownMenuShortcut>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

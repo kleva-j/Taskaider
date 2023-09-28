@@ -1,15 +1,12 @@
 "use client";
 
-import { ACTIONS, actions, addTaskDefaultValues } from "@/lib/constants";
 import { createContext, useReducer, useContext } from "react";
+import { ACTIONS, actions } from "@/lib/constants";
 import { TaskState } from "@/types";
 
 import type { PropsWithChildren } from "react";
 
-export const initialState: TaskState = {
-  addTask: { ...addTaskDefaultValues, isOpen: false },
-  taskAlertDialog: { isOpen: false },
-};
+export const initialState: TaskState = {};
 
 type Action = ACTIONS;
 type State = typeof initialState;
@@ -28,35 +25,8 @@ export function UseTaskContext() {
 
 function TaskReducer(state: State, action: Action) {
   switch (action.type) {
-    case actions.EDIT_TASK: {
-      return {
-        ...state,
-        addTask: { ...action.payload, isOpen: true },
-      };
-    }
-    case actions.TOGGLE_ADD_TASK_DIALOG: {
-      return {
-        ...state,
-        addTask: {
-          ...state.addTask,
-          isOpen: action.payload || !state.addTask.isOpen,
-        },
-      };
-    }
-    case actions.DELETE_TASK: {
-      return { ...state, taskAlertDialog: { ...action.payload, isOpen: true } };
-    }
-    case actions.CANCEL_DELETE_TASK: {
-      return { ...state, taskAlertDialog: { isOpen: false } };
-    }
-    case actions.TOGGLE_DELETE_TASK_DIALOG: {
-      return {
-        ...state,
-        taskAlertDialog: {
-          ...state.taskAlertDialog,
-          isOpen: action.payload.isOpen || !state.taskAlertDialog.isOpen,
-        },
-      };
+    case actions.INVALID_ACTION: {
+      return state;
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);

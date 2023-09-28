@@ -1,5 +1,9 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
+import { trpc } from "@/app/_trpc/client";
+import { Loader } from "lucide-react";
+import { useState } from "react";
 import {
   AlertDialogDescription,
   AlertDialogContent,
@@ -12,20 +16,26 @@ import {
   useToast,
 } from "ui";
 
-import { UseTaskContext } from "@/context/task-provider";
-import { trpc } from "@/app/_trpc/client";
-import { actions } from "@/lib/constants";
+export default function DeleteModal() {
+  const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
 
-export const DeleteTaskDialog = () => {
   const { toast } = useToast();
-  const { state, dispatch } = UseTaskContext();
-  const { taskAlertDialog } = state;
+  const { back } = useRouter();
 
-  const toggleDialog = (isOpen = false) =>
-    dispatch({
-      type: actions.TOGGLE_DELETE_TASK_DIALOG,
-      payload: { isOpen },
-    });
+  const handleClose = () => {
+    setLoading(false);
+    back();
+  };
+
+  const id = searchParams.get("id");
+
+  if (!id) {
+    handleClose();
+    return;
+  }
+
+  const utils = trpc.useContext();
 
   const deleteTask = trpc.task.delete.useMutation({
     onError: () =>
@@ -34,24 +44,24 @@ export const DeleteTaskDialog = () => {
         description: "There was a problem with deleting this task.",
         variant: "destructive",
       }),
-    onSuccess: () =>
+    onSuccess: () => {
+      utils.task.getAll.invalidate();
       toast({
         title: "😔 Task deleted!",
         description: "You have successfull deleted a task.",
         className: "border-blue-400",
-      }),
-    onSettled: () => toggleDialog(),
+      });
+    },
+    onSettled: handleClose,
   });
 
-  const handleCancel = () => dispatch({ type: actions.CANCEL_DELETE_TASK });
-
   const onTaskDelete = () => {
-    deleteTask.mutate({ id: taskAlertDialog.id as string });
-    handleCancel();
+    setLoading(true);
+    deleteTask.mutateAsync({ id }).then(handleClose);
   };
 
   return (
-    <AlertDialog open={taskAlertDialog.isOpen} onOpenChange={toggleDialog}>
+    <AlertDialog open={true}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -61,15 +71,19 @@ export const DeleteTaskDialog = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={loading} onClick={handleClose}>
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             className="text-red-600 bg-red-400 hover:bg-destructive hover:text-white transition-colors duration-300"
+            disabled={loading}
             onClick={onTaskDelete}
           >
+            {loading ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+}

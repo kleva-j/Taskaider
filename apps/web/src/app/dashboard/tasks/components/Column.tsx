@@ -37,7 +37,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const value = row.getValue("id") as string;
-      return <div className="w-[80px]">{value.slice(0, 8)}</div>;
+      return <div className="w-[80px]">{value.slice(0, 10)}</div>;
     },
     enableSorting: false,
     enableHiding: false,

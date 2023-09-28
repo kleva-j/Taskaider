@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,8 +6,15 @@ export const metadata: Metadata = {
   description: "A task and issue tracker.",
 };
 
-export default async function ({ children }: PropsWithChildren) {
+interface LayoutProps extends PropsWithChildren {
+  modal: ReactNode;
+}
+
+export default async function (props: LayoutProps) {
   return (
-    <div className="flex h-full flex-1 flex-col space-y-8 p-8">{children}</div>
+    <div className="flex h-full flex-1 flex-col space-y-8 p-8">
+      {props.children}
+      {props.modal}
+    </div>
   );
 }

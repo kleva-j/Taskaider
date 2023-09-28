@@ -1,16 +1,23 @@
 import { addTaskFormSchema } from "@/lib/formSchema";
 import { z } from "zod";
 
-export type Identifier = { key: "id" | "status" | "label"; value: string };
 export type AddTaskSchemaType = z.infer<typeof addTaskFormSchema>;
-export type DialogOptions = {
-  title?: string;
-  description?: string;
-  id?: string;
-};
-export type AlertDialogOptions = DialogOptions & { isOpen: boolean };
+export enum Priority {
+  low = "low",
+  medium = "medium",
+  high = "high",
+}
+export enum Label {
+  documentation = "documentation",
+  bugs = "bugs",
+  feature = "feature",
+}
+export enum Status {
+  backlog = "backlog",
+  todo = "todo",
+  inprogress = "progress",
+  done = "done",
+  cancelled = "cancelled",
+}
 
-export type TaskState = {
-  addTask: AddTaskSchemaType & { isOpen: boolean };
-  taskAlertDialog: AlertDialogOptions;
-};
+export type TaskState = {};
