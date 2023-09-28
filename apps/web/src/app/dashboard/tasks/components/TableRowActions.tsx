@@ -1,7 +1,7 @@
 "use client";
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { labels } from "@/app/dashboard/tasks/_data";
 import { Row } from "@tanstack/react-table";
 import {
@@ -19,6 +19,8 @@ import {
   Button,
 } from "ui";
 
+import Link from "next/link";
+
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
@@ -27,6 +29,11 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original);
+
+  const id = row.getValue("id") as string;
+  const title = row.getValue("title") as string;
+  const status = row.getValue("status") as string;
+  const priority = row.getValue("priority") as string;
 
   return (
     <DropdownMenu>
@@ -40,14 +47,23 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link
+            href={{
+              pathname: "/dashboard/tasks/edit",
+              query: { id, title, status, priority },
+            }}
+          >
+            Edit
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
+            <DropdownMenuRadioGroup value={task.label as string | undefined}>
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
                   {label.label}
@@ -57,11 +73,21 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="group text-destructive hover:text-destructive">
-          <span className="group-hover:text-destructive">Delete</span>
-          <DropdownMenuShortcut className="group-hover:text-destructive">
-            ⌘⌫
-          </DropdownMenuShortcut>
+        <DropdownMenuItem
+          className="group text-destructive hover:text-destructive"
+          asChild
+        >
+          <Link
+            href={{
+              pathname: "/dashboard/tasks/delete",
+              query: { id },
+            }}
+          >
+            <span className="group-hover:text-destructive">Delete</span>
+            <DropdownMenuShortcut className="group-hover:text-destructive">
+              ⌘⌫
+            </DropdownMenuShortcut>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

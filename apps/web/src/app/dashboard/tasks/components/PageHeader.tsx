@@ -1,6 +1,9 @@
 "use client";
 
-import { AddNewTask } from "@/app/dashboard/tasks/components/AddNewTask";
+import { PlusIcon } from "lucide-react";
+import { Button } from "ui";
+
+import Link from "next/link";
 
 export const PageHeader = () => {
   return (
@@ -12,7 +15,19 @@ export const PageHeader = () => {
         </p>
       </div>
       <div className="flex items-center space-x-2">
-        <AddNewTask />
+        <Button
+          size="icon"
+          variant="outline"
+          className="ml-auto rounded-full"
+          asChild
+        >
+          <Link href="/dashboard/tasks/new">
+            <>
+              <PlusIcon className="h-4 w-4" />
+              <span className="sr-only">New task</span>
+            </>
+          </Link>
+        </Button>
       </div>
     </div>
   );

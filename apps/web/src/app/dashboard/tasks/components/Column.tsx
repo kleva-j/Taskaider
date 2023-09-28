@@ -1,10 +1,10 @@
 "use client";
 
+import { labels, priorities, statuses } from "@/app/dashboard/tasks/_data";
 import { Task } from "@/app/dashboard/tasks/_data/schema";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge, Checkbox } from "ui";
 
-import { labels, priorities, statuses } from "@/app/dashboard/tasks/_data";
 import { DataTableColumnHeader } from "./TableColumnHeader";
 import { DataTableRowActions } from "./TableRowActions";
 
@@ -35,7 +35,10 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Task" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => {
+      const value = row.getValue("id") as string;
+      return <div className="w-[80px]">{value.slice(0, 10)}</div>;
+    },
     enableSorting: false,
     enableHiding: false,
   },

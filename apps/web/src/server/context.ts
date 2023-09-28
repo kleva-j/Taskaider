@@ -1,30 +1,25 @@
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type User, getAuth, clerkClient } from "@clerk/nextjs/server";
 import { type inferAsyncReturnType } from "@trpc/server";
-import { type NextApiRequest } from "next";
-import {
-  type SignedOutAuthObject,
-  type SignedInAuthObject,
-} from "@clerk/nextjs/api";
 
-import { getAuth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 
-export type CreateContextOptions = {
-  auth: SignedInAuthObject | SignedOutAuthObject | null;
-  req?: CreateNextContextOptions["req"];
+interface UserProps {
+  user: User | null;
+}
+
+export const createContextInner = async ({ user }: UserProps) => {
+  return { user, db };
 };
 
-const createContextInner = async (opts: CreateContextOptions) => {
-  return { ...opts, db };
+export const createContext = async (opts: CreateNextContextOptions) => {
+  async function getUser() {
+    const { userId } = getAuth(opts.req);
+    const user = userId ? clerkClient.users.getUser(userId) : null;
+    return user;
+  }
+  const user = await getUser();
+  return await createContextInner({ user });
 };
 
-export const createTRPCContext = (opts: {
-  req: CreateNextContextOptions["req"] | NextApiRequest;
-}) => {
-  return createContextInner({
-    auth: getAuth(opts.req),
-    req: opts.req,
-  });
-};
-
-export type Context = inferAsyncReturnType<typeof createTRPCContext>;
+export type Context = inferAsyncReturnType<typeof createContext>;
