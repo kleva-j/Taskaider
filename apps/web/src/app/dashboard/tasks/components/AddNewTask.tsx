@@ -3,7 +3,7 @@
 import { defaultLabels, priorities } from "@taskaider/db/src/schema";
 import { addTaskDefaultValues } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addTaskFormSchema } from "@/lib/formSchema";
+import { addTaskFormSchema } from "@/lib/typeSchema";
 import { AddTaskSchemaType } from "@/types";
 import { useForm } from "react-hook-form";
 import { trpc } from "@/app/_trpc/client";

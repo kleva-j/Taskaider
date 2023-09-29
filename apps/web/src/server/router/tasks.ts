@@ -1,15 +1,15 @@
 import { PriorityEnum, StatusEnum, tasks } from "@taskaider/db/src/schema";
 import { createTRPCRouter, protectedProcedure } from "@/server/trpc";
-import { addTaskFormSchema } from "@/lib/formSchema";
+import { filterParams, isEmpty } from "@/lib/helper";
 import { and, asc, eq } from "@taskaider/db";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
-
-const filterQuery = z.object({
-  limit: z.number(),
-  offset: z.number().optional(),
-});
+import {
+  getBatchFilterQuery,
+  addTaskFormSchema,
+  updateBatchParams,
+} from "@/lib/typeSchema";
 
 export const TaskRouter = createTRPCRouter({
   create: protectedProcedure
@@ -31,7 +31,7 @@ export const TaskRouter = createTRPCRouter({
       }
     }),
   getBatch: protectedProcedure
-    .input(filterQuery)
+    .input(getBatchFilterQuery)
     .query(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
       const { limit, offset } = input;
@@ -41,6 +41,66 @@ export const TaskRouter = createTRPCRouter({
         orderBy: [asc(tasks.id)],
         where: eq(tasks.authorId, userId),
       });
+    }),
+  deleteBatch: protectedProcedure
+    .input(
+      z.object({
+        ids: z.array(z.string().cuid2()).min(2),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { id: userId } = ctx.user;
+      const { ids } = input;
+
+      try {
+        await db.transaction(async (tx) => {
+          const results = await Promise.allSettled(
+            ids.map(
+              async (id) =>
+                await tx
+                  .delete(tasks)
+                  .where(and(eq(tasks.id, id), eq(tasks.authorId, userId)))
+                  .returning({ deletedId: tasks.id }),
+            ),
+          );
+          const deletedIds = results
+            .map((id) => (id.status === "fulfilled" ? id.value[0] : false))
+            .filter(Boolean);
+          return deletedIds;
+        });
+      } catch (err) {
+        throw err;
+      }
+    }),
+  updateBatch: protectedProcedure
+    .input(
+      z.object({
+        ids: z.array(z.string().cuid2()).min(2),
+        params: updateBatchParams,
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { id: userId } = ctx.user;
+      const { ids, params } = input;
+      const update = filterParams(params);
+      try {
+        if (isEmpty(update))
+          throw new Error("Ensure update parameters are valid!");
+
+        await db.transaction(async (tx) => {
+          Promise.allSettled(
+            ids.map(
+              async (id) =>
+                await tx
+                  .update(tasks)
+                  .set({ ...update })
+                  .where(and(eq(tasks.id, id), eq(tasks.authorId, userId))),
+            ),
+          );
+        });
+      } catch (err) {
+        throw err;
+      }
     }),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     const { id: userId } = ctx.user;

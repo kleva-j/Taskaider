@@ -1,4 +1,4 @@
-import { addTaskFormSchema } from "@/lib/formSchema";
+import { addTaskFormSchema } from "@/lib/typeSchema";
 import { z } from "zod";
 
 export type AddTaskSchemaType = z.infer<typeof addTaskFormSchema>;
