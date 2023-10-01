@@ -4,7 +4,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@/public/*": ["./public/*"]
+      "@/public/*": ["./public/*"],
+      "@/tasks/*": ["./src/app/dashboard/tasks/*"]
     }
   },
   "include": [
