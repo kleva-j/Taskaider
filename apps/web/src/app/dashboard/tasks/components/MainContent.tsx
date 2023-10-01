@@ -7,7 +7,7 @@ import { Skeleton } from "ui";
 import { FC } from "react";
 
 export const MainContent: FC = () => {
-  const { data, isLoading } = trpc.task.getAll.useQuery();
+  const { data, isLoading } = trpc.task.get.all.useQuery();
   const tasks = data as NonNullable<typeof data>;
 
   return (
