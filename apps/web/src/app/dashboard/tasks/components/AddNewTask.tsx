@@ -3,7 +3,7 @@
 import { defaultLabels, priorities } from "@taskaider/db/src/schema";
 import { addTaskDefaultValues } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addTaskFormSchema } from "@/lib/formSchema";
+import { addTaskFormSchema } from "@/lib/typeSchema";
 import { AddTaskSchemaType } from "@/types";
 import { useForm } from "react-hook-form";
 import { trpc } from "@/app/_trpc/client";
@@ -51,7 +51,7 @@ export const AddNewTask = (props: Props) => {
     handleClose();
   };
 
-  const editTask = trpc.task.update.useMutation({
+  const editTask = trpc.task.update.single.useMutation({
     onError: () =>
       toast({
         title: "Uh oh! Something went wrong.",
@@ -59,7 +59,7 @@ export const AddNewTask = (props: Props) => {
         variant: "destructive",
       }),
     onSuccess: () => {
-      utils.task.getAll.invalidate();
+      utils.task.get.all.invalidate();
       toast({
         title: "🎉 Task updated!",
         description: "You have successfull edited this task.",
@@ -77,7 +77,7 @@ export const AddNewTask = (props: Props) => {
         variant: "destructive",
       }),
     onSuccess: () => {
-      utils.task.getAll.invalidate();
+      utils.task.get.all.invalidate();
       toast({
         title: "🎉 New task added!",
         description: "You have successfull added a new task.",

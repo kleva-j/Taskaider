@@ -18,6 +18,6 @@ export function getBaseUrl() {
     return "";
   }
   return process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
+    ? "https://localhost:3000"
     : process.env.VERCEL_URL;
 }

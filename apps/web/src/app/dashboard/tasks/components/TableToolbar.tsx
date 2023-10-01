@@ -4,10 +4,11 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 import { Button, Input } from "ui";
 
-import { DataTableFacetedFilter } from "@/app/dashboard/tasks/components/TableFacetedFilter";
-import { DataTableViewOptions } from "@/app/dashboard/tasks/components/TableViewOptions";
-import { priorities, statuses } from "@/app/dashboard/tasks/_data";
-
+import { DataTableFacetedFilter } from "@/tasks/components/TableFacetedFilter";
+import { DataTableViewOptions } from "@/tasks/components/TableViewOptions";
+import { DataTableDeleteGroup } from "@/tasks/components/TableDeleteGroup";
+import { priorities, statuses } from "@/tasks/_data";
+import { useCallback } from "react";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
@@ -16,6 +17,12 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const isSomeSelected = table.getIsSomeRowsSelected();
+
+  const toggleSelected = useCallback(
+    () => table.toggleAllPageRowsSelected(false),
+    [],
+  );
 
   return (
     <div className="flex items-center justify-between">
@@ -53,7 +60,15 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex gap-x-2 flex-row-reverse">
+        {isSomeSelected && (
+          <DataTableDeleteGroup
+            rows={table.getSelectedRowModel().rows}
+            toggleSelected={toggleSelected}
+          />
+        )}
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   );
 }
