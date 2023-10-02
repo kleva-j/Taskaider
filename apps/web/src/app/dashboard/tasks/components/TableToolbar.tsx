@@ -1,14 +1,14 @@
 "use client";
 
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
-import { Button, Input } from "ui";
-
+import { ToolbarSelectedAction } from "@/tasks/components/ToolbarSelectedAction";
 import { DataTableFacetedFilter } from "@/tasks/components/TableFacetedFilter";
 import { DataTableViewOptions } from "@/tasks/components/TableViewOptions";
-import { DataTableDeleteGroup } from "@/tasks/components/TableDeleteGroup";
 import { priorities, statuses } from "@/tasks/_data";
+import { Cross2Icon } from "@radix-ui/react-icons";
+import { Table } from "@tanstack/react-table";
 import { useCallback } from "react";
+import { Button, Input } from "ui";
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
@@ -60,9 +60,9 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <div className="flex gap-x-2 flex-row-reverse">
+      <div className="flex gap-x-2 flex-row-reverse h-7 items-center">
         {isSomeSelected && (
-          <DataTableDeleteGroup
+          <ToolbarSelectedAction
             rows={table.getSelectedRowModel().rows}
             toggleSelected={toggleSelected}
           />

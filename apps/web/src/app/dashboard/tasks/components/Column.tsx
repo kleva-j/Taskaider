@@ -1,12 +1,12 @@
 "use client";
 
-import { labels, priorities, statuses } from "@/app/dashboard/tasks/_data";
+import { DataTableColumnHeader } from "@/tasks/components/TableColumnHeader";
+import { DataTableRowActions } from "@/tasks/components/TableRowActions";
+import { labels, priorities, statuses } from "@/tasks/_data";
 import { Task } from "@/app/dashboard/tasks/_data/schema";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge, Checkbox } from "ui";
-
-import { DataTableColumnHeader } from "./TableColumnHeader";
-import { DataTableRowActions } from "./TableRowActions";
+import { Badge, Checkbox, cn } from "ui";
+import { Status } from "@/types";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -49,6 +49,8 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
+      const status = row.getValue("status") as string;
+      const isDone = status === Status.done;
 
       return (
         <div className="flex space-x-2">
@@ -57,7 +59,14 @@ export const columns: ColumnDef<Task>[] = [
               {label.label}
             </Badge>
           )}
-          <span className="max-w-[500px] truncate font-medium">
+          <span
+            className={cn(
+              "max-w-[500px] truncate font-medium",
+              isDone
+                ? "line-through decoration-2 decoration-secondary-foreground"
+                : "",
+            )}
+          >
             {row.getValue("title")}
           </span>
         </div>
