@@ -9,13 +9,13 @@ export enum Priority {
 }
 export enum Label {
   documentation = "documentation",
-  bugs = "bugs",
+  bug = "bug",
   feature = "feature",
 }
 export enum Status {
   backlog = "backlog",
   todo = "todo",
-  inprogress = "progress",
+  "in progress" = "in progress",
   done = "done",
   cancelled = "cancelled",
 }

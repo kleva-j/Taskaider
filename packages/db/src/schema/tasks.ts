@@ -11,7 +11,7 @@ export const availableStatus = [
   "done",
   "cancelled",
 ] as const;
-export const defaultLabels = ["documentation", "bugs", "feature"] as const;
+export const defaultLabels = ["documentation", "bug", "feature"] as const;
 export const priorities = ["low", "medium", "high"] as const;
 
 export const StatusEnum = z.enum(availableStatus);
