@@ -5,8 +5,8 @@ import { DataTableFacetedFilter } from "@/tasks/components/TableFacetedFilter";
 import { DataTableViewOptions } from "@/tasks/components/TableViewOptions";
 import { priorities, statuses } from "@/tasks/_data";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { ChangeEvent, useCallback } from "react";
 import { Table } from "@tanstack/react-table";
-import { useCallback } from "react";
 import { Button, Input } from "ui";
 
 interface DataTableToolbarProps<TData> {
@@ -30,7 +30,7 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="h-8 max-w-[250px]"
