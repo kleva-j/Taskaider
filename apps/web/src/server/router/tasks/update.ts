@@ -42,7 +42,7 @@ export const UpdateTasksRouter = createTRPCRouter({
   multiple: protectedProcedure
     .input(
       z.object({
-        ids: z.array(z.string().cuid2()).min(2),
+        ids: z.array(z.string().cuid2()).min(1),
         params: updateBatchParams,
       }),
     )
