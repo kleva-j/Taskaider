@@ -5,7 +5,6 @@ import * as React from "react";
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { Cross2Icon } from "@radix-ui/react-icons";
-
 import { cn } from "@/lib/utils";
 
 const Sheet = SheetPrimitive.Root;
@@ -14,13 +13,7 @@ const SheetTrigger = SheetPrimitive.Trigger;
 
 const SheetClose = SheetPrimitive.Close;
 
-const SheetPortal = ({
-  className,
-  ...props
-}: SheetPrimitive.DialogPortalProps) => (
-  <SheetPrimitive.Portal className={cn(className)} {...props} />
-);
-SheetPortal.displayName = SheetPrimitive.Portal.displayName;
+const SheetPortal = SheetPrimitive.Portal;
 
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
@@ -135,6 +128,8 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {
   Sheet,
+  SheetPortal,
+  SheetOverlay,
   SheetTrigger,
   SheetClose,
   SheetContent,
