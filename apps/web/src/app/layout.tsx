@@ -4,6 +4,7 @@ import "ui/styles.css";
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
+import { EdgeStoreProvider } from "@/lib/edgestore";
 import { Providers } from "@/components/Providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { fontSans } from "@/lib/fonts";
@@ -16,9 +17,11 @@ export default function RootLayout(props: PropsWithChildren): JSX.Element {
         className={`${fontSans.variable} font-sans bg-background`}
         suppressHydrationWarning={true}
       >
-        <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-          <Providers>{props.children}</Providers>
-        </ClerkProvider>
+        <EdgeStoreProvider>
+          <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+            <Providers>{props.children}</Providers>
+          </ClerkProvider>
+        </EdgeStoreProvider>
       </body>
     </html>
   );

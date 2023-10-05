@@ -4,7 +4,6 @@ import { filterParams, isEmpty } from "@/lib/helper";
 import { updateBatchParams } from "@/lib/typeSchema";
 import { TRPCError } from "@trpc/server";
 import { and, eq } from "@taskaider/db";
-import { db } from "@/lib/db";
 import { z } from "zod";
 
 export const UpdateTasksRouter = createTRPCRouter({
@@ -24,7 +23,7 @@ export const UpdateTasksRouter = createTRPCRouter({
       const { id: userId } = ctx.user;
 
       try {
-        const task = await db
+        const task = await ctx.db
           .update(tasks)
           .set({ ...update })
           .where(and(eq(tasks.id, id), eq(tasks.authorId, userId)))
@@ -54,7 +53,7 @@ export const UpdateTasksRouter = createTRPCRouter({
         if (isEmpty(update))
           throw new Error("Ensure update parameters are valid!");
 
-        await db.transaction(async (tx) => {
+        return await ctx.db.transaction(async (tx) => {
           const result = await Promise.allSettled(
             ids.map(
               async (id) =>

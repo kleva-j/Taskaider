@@ -1,4 +1,4 @@
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type CreateContextOptions } from "@edgestore/server/adapters/next/app";
 import { type User, getAuth, clerkClient } from "@clerk/nextjs/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 
@@ -12,7 +12,7 @@ export const createContextInner = async ({ user }: UserProps) => {
   return { user, db };
 };
 
-export const createContext = async (opts: CreateNextContextOptions) => {
+export const createContext = async (opts: CreateContextOptions) => {
   async function getUser() {
     const { userId } = getAuth(opts.req);
     const user = userId ? clerkClient.users.getUser(userId) : null;

@@ -13,14 +13,14 @@ export const UserRouter = createTRPCRouter({
         photoUrl: z.string().url(),
       }),
     )
-    .mutation(async ({ input }) => {
-      await db
+    .mutation(async ({ input, ctx }) => {
+      await ctx.db
         .insert(users)
         .values({ ...input })
         .run();
       return true;
     }),
   getAll: publicProcedure.query(
-    async () => await db.select().from(users).all(),
+    async ({ ctx }) => await ctx.db.select().from(users).all(),
   ),
 });
