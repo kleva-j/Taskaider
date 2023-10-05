@@ -2,7 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "@/server/trpc";
 import { tasks } from "@taskaider/db/src/schema";
 import { TRPCError } from "@trpc/server";
 import { and, eq } from "@taskaider/db";
-import { db } from "@/lib/db";
 import { z } from "zod";
 
 export const DeleteTasksRouter = createTRPCRouter({
@@ -11,7 +10,7 @@ export const DeleteTasksRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       try {
         const { id: userId } = ctx.user;
-        const task = await db
+        const task = await ctx.db
           .delete(tasks)
           .where(and(eq(tasks.id, input.id), eq(tasks.authorId, userId)))
           .returning({ deletedId: tasks.id });
@@ -36,7 +35,7 @@ export const DeleteTasksRouter = createTRPCRouter({
       const { ids } = input;
 
       try {
-        await db.transaction(async (tx) => {
+        await ctx.db.transaction(async (tx) => {
           const result = await Promise.allSettled(
             ids.map(
               async (id) =>

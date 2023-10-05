@@ -3,7 +3,6 @@ import { getBatchFilterQuery } from "@/lib/typeSchema";
 import { tasks } from "@taskaider/db/src/schema";
 import { and, asc, eq } from "@taskaider/db";
 import { TRPCError } from "@trpc/server";
-import { db } from "@/lib/db";
 import { z } from "zod";
 
 export const GetTasksRouter = createTRPCRouter({
@@ -12,7 +11,7 @@ export const GetTasksRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
       const { limit, offset } = input;
-      return await db.query.tasks.findMany({
+      return await ctx.db.query.tasks.findMany({
         limit,
         offset,
         orderBy: [asc(tasks.id)],
@@ -21,7 +20,7 @@ export const GetTasksRouter = createTRPCRouter({
     }),
   all: protectedProcedure.query(async ({ ctx }) => {
     const { id: userId } = ctx.user;
-    return await db.query.tasks.findMany({
+    return await ctx.db.query.tasks.findMany({
       where: eq(tasks.authorId, userId),
     });
   }),
@@ -29,7 +28,7 @@ export const GetTasksRouter = createTRPCRouter({
     .input(z.object({ id: z.string().cuid2() }))
     .query(async ({ input, ctx }) => {
       const { id: userId } = ctx.user;
-      const task = await db
+      const task = await ctx.db
         .select()
         .from(tasks)
         .where(and(eq(tasks.id, input.id), eq(tasks.authorId, userId)))
