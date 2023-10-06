@@ -4,9 +4,9 @@ import { DataTableColumnHeader } from "@/tasks/components/TableColumnHeader";
 import { DataTableRowActions } from "@/tasks/components/TableRowActions";
 import { labels, priorities, statuses } from "@/tasks/_data";
 import { Task } from "@/app/dashboard/tasks/_data/schema";
+import { Status, Priority, StatusEnum } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge, Checkbox, cn } from "ui";
-import { Status } from "@/types";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
       const status = row.getValue("status") as string;
-      const isDone = status === Status.done;
+      const isDone = status === StatusEnum.done;
 
       return (
         <div className="flex space-x-2">
@@ -99,6 +99,11 @@ export const columns: ColumnDef<Task>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+    sortingFn: (rowA: any, rowB: any, columnId: string): number => {
+      return Status[rowA.getValue(columnId)] < Status[rowB.getValue(columnId)]
+        ? 1
+        : -1;
+    },
   },
   {
     accessorKey: "priority",
@@ -125,6 +130,12 @@ export const columns: ColumnDef<Task>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+    sortingFn: (rowA: any, rowB: any, columnId: string): number => {
+      return Priority[rowA.getValue(columnId)] <
+        Priority[rowB.getValue(columnId)]
+        ? 1
+        : -1;
     },
   },
   {

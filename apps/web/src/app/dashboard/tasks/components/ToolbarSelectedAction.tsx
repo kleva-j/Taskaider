@@ -3,10 +3,10 @@
 import { DeleteTasks, Mode } from "@/tasks/components/DeleteTask";
 import { Button, cn, useToast, Separator } from "ui";
 import { Trash, CheckCircle } from "lucide-react";
+import { StatusEnum } from "@/types";
 import { Row } from "@tanstack/react-table";
 import { trpc } from "@/app/_trpc/client";
 import { useState } from "react";
-import { Status } from "@/types";
 
 interface ToolbarSelectedActionProps<TData> {
   rows: Row<TData>[];
@@ -51,14 +51,14 @@ export function ToolbarSelectedAction<TData>({
 
   const markAsDone = async () => {
     const ids = rows
-      .filter((row) => row.original["status"] !== Status.done)
+      .filter((row) => row.original["status"] !== StatusEnum.done)
       .map((row) => row.original["id"]);
 
     if (ids.length >= 1) {
       setLoading(true);
       await updateTasks.mutateAsync({
         ids,
-        params: [{ status: Status.done }],
+        params: [{ status: StatusEnum.done }],
       });
       setLoading(false);
     } else toast({ title: "Select tasks that are not done yet." });
