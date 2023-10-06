@@ -90,4 +90,4 @@ const handler = async (req: NextRequest) => {
   return NextResponse.json({ success: true }, { status: 200 });
 };
 
-export { handler as GET, handler as POST, handler as PUT };
+export { handler as POST };
