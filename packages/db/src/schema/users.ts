@@ -6,6 +6,7 @@ export const users = sqliteTable("users", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
+  tenantId: text("tenant_id", { length: 256 }).unique(),
   firstName: text("first_name").default(""),
   lastName: text("last_name").default(""),
   email: text("email").default(""),
