@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { env } from "@/env";
 
-export async function POST(req: NextRequest) {
+const handler = async (req: NextRequest) => {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = env.CLERK_WEBHOOK_SIGNING_SECRET;
 
@@ -88,4 +88,6 @@ export async function POST(req: NextRequest) {
       break;
   }
   return NextResponse.json({ success: true }, { status: 200 });
-}
+};
+
+export { handler as GET, handler as POST, handler as PUT };
