@@ -47,22 +47,21 @@ const handler = async (req: NextRequest) => {
     });
   }
 
-  // validate input with zod
-  const r = clerkEvent.safeParse(evt.data);
+  // // validate input with zod
+  // const r = clerkEvent.safeParse(evt.data);
 
-  if (!r.success) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
-  }
+  // if (!r.success) {
+  //   return NextResponse.json(
+  //     { error: "Internal Server Error" },
+  //     { status: 500 },
+  //   );
+  // }
 
   const caller = appRouter.createCaller(await createContext({ req }));
-  const event = r.data.type;
 
-  switch (event) {
+  switch (evt.type) {
     case "user.created": {
-      await caller.clerk.webhooks.userCreated({ data: r.data });
+      await caller.clerk.webhooks.userCreated({ data: evt });
       break;
     }
     case "user.updated":
@@ -70,7 +69,7 @@ const handler = async (req: NextRequest) => {
       break;
 
     case "session.created": {
-      await caller.clerk.webhooks.userSignedIn({ data: r.data });
+      await caller.clerk.webhooks.userSignedIn({ data: evt });
       break;
     }
 
@@ -84,7 +83,7 @@ const handler = async (req: NextRequest) => {
       break;
 
     default:
-      ((d: never) => console.error(`${d} not handled here`))(event);
+      ((d: string) => console.error(`${d} not handled here`))(evt.type);
       break;
   }
   return NextResponse.json({ success: true }, { status: 200 });
