@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { eq } from "@taskaider/db";
 import { users } from "@taskaider/db/src/schema";
+import { eq } from "@taskaider/db";
 
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { clerkEvent } from "./type";
