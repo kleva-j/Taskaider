@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { clerkEvent } from "@/server/router/clerk/type";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { users } from "@taskaider/db/src/schema";
 import { createContext } from "@/server/context";
 import { appRouter } from "@/server/router";
 import { headers } from "next/headers";
+import { eq } from "@taskaider/db";
 import { Webhook } from "svix";
+import { db } from "@/lib/db";
 import { env } from "@/env";
 
 const handler = async (req: NextRequest) => {
@@ -65,8 +67,24 @@ const handler = async (req: NextRequest) => {
 
   switch (evt.type) {
     case "user.created": {
-      console.log("Users.Created Event", "<<<<====>>>>", evt.data.first_name);
-      await caller.clerk.webhooks.userCreated({ data: evt });
+      // await caller.clerk.webhooks.userCreated({ data: evt });
+      const alreadyExists = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.tenantId, evt.data.id))
+        .get();
+      if (alreadyExists) return;
+      await db
+        .insert(users)
+        .values({
+          email: evt.data.email_addresses[0].email_address,
+          tenantId: evt.data.id,
+          firstName: evt.data.first_name,
+          lastName: evt.data.last_name || "",
+          photoUrl: evt.data.image_url || "",
+        })
+        .returning()
+        .get();
       break;
     }
     case "user.updated":
@@ -75,7 +93,7 @@ const handler = async (req: NextRequest) => {
 
     case "session.created": {
       console.log("Session.Created Event", "<<<<====>>>>", evt.data.user_id);
-      await caller.clerk.webhooks.userSignedIn({ data: evt });
+      // await caller.clerk.webhooks.userSignedIn({ data: evt });
       break;
     }
 

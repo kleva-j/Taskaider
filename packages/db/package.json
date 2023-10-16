@@ -7,7 +7,7 @@
     "generate": "drizzle-kit generate:sqlite",
     "push": "drizzle-kit push:sqlite",
     "migrate": "ts-node --esm src/migrate.mts",
-    "studio": "drizzle-kit studio",
+    "studio": "drizzle-kit studio --port 4000 --verbose",
     "with-env": "dotenv -e .env --",
     "dev": "pnpm with-env drizzle-kit studio --port 5556",
     "seed": "bun src/seed.ts"

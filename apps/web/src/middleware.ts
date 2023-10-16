@@ -12,7 +12,6 @@ export default authMiddleware({
     }
   },
   publicRoutes: ["/", "/sign-in", "/sign-up"].concat(ignoredRoutes),
-  ignoredRoutes,
 });
 
 export const config = {
