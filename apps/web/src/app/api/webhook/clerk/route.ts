@@ -11,6 +11,12 @@ const handler = async (req: NextRequest) => {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = env.CLERK_WEBHOOK_SIGNING_SECRET;
 
+  if (!WEBHOOK_SECRET) {
+    throw new Error(
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
+    );
+  }
+
   // Get the headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
@@ -42,9 +48,7 @@ const handler = async (req: NextRequest) => {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
-      status: 400,
-    });
+    return new Response("Error occured", { status: 400 });
   }
 
   // // validate input with zod
@@ -61,6 +65,7 @@ const handler = async (req: NextRequest) => {
 
   switch (evt.type) {
     case "user.created": {
+      console.log("Users.Created Event", "<<<<====>>>>", evt.data.first_name);
       await caller.clerk.webhooks.userCreated({ data: evt });
       break;
     }
@@ -69,6 +74,7 @@ const handler = async (req: NextRequest) => {
       break;
 
     case "session.created": {
+      console.log("Session.Created Event", "<<<<====>>>>", evt.data.user_id);
       await caller.clerk.webhooks.userSignedIn({ data: evt });
       break;
     }

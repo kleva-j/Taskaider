@@ -1,6 +1,8 @@
 import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 import { getBaseUrl } from "@/lib/auth";
 
+const ignoredRoutes = ["/api/webhook/clerk", "/api/random"];
+
 export default authMiddleware({
   afterAuth(auth, _req, _evt) {
     if (!auth.userId && !auth.isPublicRoute) {
@@ -9,10 +11,12 @@ export default authMiddleware({
       });
     }
   },
-  publicRoutes: ["/", "/sign-in", "/sign-up"],
-  ignoredRoutes: ["/api/webhook/clerk", "/api/random"],
+  publicRoutes: ["/", "/sign-in", "/sign-up"].concat(ignoredRoutes),
+  ignoredRoutes,
 });
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"].concat(
+    ignoredRoutes,
+  ),
 };
