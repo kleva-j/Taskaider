@@ -1,4 +1,5 @@
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { createId } from "@paralleldrive/cuid2";
 import { sql } from "drizzle-orm";
 
@@ -21,3 +22,6 @@ export const users = sqliteTable("users", {
 
 export type User = typeof users.$inferSelect; // return type when queried
 export type InsertUser = typeof users.$inferInsert; // insert type
+
+export const insertUserSchema = createInsertSchema(users);
+export const selectUserSchema = createSelectSchema(users);
