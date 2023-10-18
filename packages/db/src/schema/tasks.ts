@@ -1,7 +1,12 @@
+/* eslint-disable import/order */
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { createId } from "@paralleldrive/cuid2";
 import { sql, relations } from "drizzle-orm";
 import { z } from "zod";
+
+// Schema
+import { sessions } from "./session";
 import { users } from "./users";
 
 export const availableStatus = [
@@ -24,7 +29,7 @@ export const tasks = sqliteTable("tasks", {
   status: text("status", { enum: availableStatus }).default("backlog"),
   title: text("title", { length: 256 }).default("").notNull(),
   authorId: text("author_id")
-    .references(() => users.id)
+    .references(() => users.id, { onDelete: "cascade" })
     .default(""),
   label: text("label").default(""),
   priority: text("priority", { enum: priorities }).default("low"),
@@ -38,6 +43,7 @@ export const tasks = sqliteTable("tasks", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   tasks: many(tasks),
+  sessions: many(sessions),
 }));
 
 export const tasksRelations = relations(tasks, ({ one }) => ({
@@ -49,3 +55,6 @@ export const tasksRelations = relations(tasks, ({ one }) => ({
 
 export type Task = typeof tasks.$inferSelect; // return type when queried
 export type InsertTask = typeof tasks.$inferInsert; // insert type
+
+export const insertTaskSchema = createInsertSchema(tasks);
+export const selectTaskSchema = createSelectSchema(tasks);
