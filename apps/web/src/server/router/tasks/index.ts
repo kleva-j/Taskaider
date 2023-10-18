@@ -22,7 +22,10 @@ export const TaskRouter = createTRPCRouter({
             message: "Task with that id already exists",
           });
         }
-        throw err;
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An error occured while processing your request.",
+        });
       }
     }),
   get: GetTasksRouter,

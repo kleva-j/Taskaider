@@ -6,7 +6,9 @@
   "scripts": {
     "generate": "drizzle-kit generate:sqlite",
     "push": "drizzle-kit push:sqlite",
-    "migrate": "ts-node --esm src/migrate.mts",
+    "sqlite:generate": "drizzle-kit generate:sqlite - out ./drizzle/migrations - breakpoints - schema=./drizzle/schema.ts",
+    "migrate": "ts-node --esm src/migrate.ts",
+    "sqlite:migrate": "tsx ./src/migrate.ts",
     "studio": "drizzle-kit studio --port 4000 --verbose",
     "with-env": "dotenv -e .env --",
     "dev": "pnpm with-env drizzle-kit studio --port 5556",
@@ -19,6 +21,7 @@
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.19.13",
     "drizzle-orm": "^0.28.6",
+    "drizzle-zod": "^0.5.1",
     "zod": "^3.22.3"
   },
   "devDependencies": {
@@ -26,8 +29,8 @@
     "bufferutil": "^4.0.7",
     "encoding": "^0.1.13",
     "eslint-config-custom": "workspace:*",
-    "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
+    "tsx": "^3.13.0",
     "typescript": "^5.2.2",
     "utf-8-validate": "^6.0.3"
   }
