@@ -11,14 +11,13 @@
     "sqlite:migrate": "tsx ./src/migrate.ts",
     "studio": "drizzle-kit studio --port 4000 --verbose",
     "with-env": "dotenv -e .env --",
-    "dev": "pnpm with-env drizzle-kit studio --port 5556",
     "seed": "bun src/seed.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.3.4",
     "@paralleldrive/cuid2": "^2.2.2",
     "@t3-oss/env-core": "^0.6.1",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.0.0",
     "drizzle-kit": "^0.19.13",
     "drizzle-orm": "^0.28.6",
     "drizzle-zod": "^0.5.1",

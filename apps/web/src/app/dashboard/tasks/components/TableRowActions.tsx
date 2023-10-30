@@ -36,7 +36,7 @@ export function DataTableRowActions<TData>({
 
   const [loading, setLoading] = useState(false);
 
-  const id = row.getValue("id") as string;
+  const id = row.getValue("id") as number;
   const title = row.getValue("title") as string;
   const status = row.getValue("status") as string;
   const priority = row.getValue("priority") as string;

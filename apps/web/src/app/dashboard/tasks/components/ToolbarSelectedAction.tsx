@@ -3,9 +3,9 @@
 import { DeleteTasks, Mode } from "@/tasks/components/DeleteTask";
 import { Button, cn, useToast, Separator } from "ui";
 import { Trash, CheckCircle } from "lucide-react";
-import { StatusEnum } from "@/types";
 import { Row } from "@tanstack/react-table";
 import { trpc } from "@/app/_trpc/client";
+import { StatusEnum } from "@/types";
 import { useState } from "react";
 
 interface ToolbarSelectedActionProps<TData> {

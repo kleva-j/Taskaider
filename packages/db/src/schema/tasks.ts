@@ -3,24 +3,21 @@ import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { createId } from "@paralleldrive/cuid2";
 import { sql, relations } from "drizzle-orm";
-import { z } from "zod";
 
 // Schema
 import { sessions } from "./session";
 import { users } from "./users";
 
-export const availableStatus = [
+const availableStatus = [
   "backlog",
   "todo",
   "in progress",
   "done",
   "cancelled",
 ] as const;
-export const defaultLabels = ["documentation", "bug", "feature"] as const;
-export const priorities = ["low", "medium", "high"] as const;
 
-export const StatusEnum = z.enum(availableStatus);
-export const PriorityEnum = z.enum(priorities);
+const defaultLabels = ["documentation", "bug", "feature"] as const;
+const priorities = ["low", "medium", "high"] as const;
 
 export const tasks = sqliteTable("tasks", {
   id: text("id")
@@ -31,7 +28,7 @@ export const tasks = sqliteTable("tasks", {
   authorId: text("author_id")
     .references(() => users.id, { onDelete: "cascade" })
     .default(""),
-  label: text("label").default(""),
+  label: text("label", { enum: defaultLabels }).default("feature"),
   priority: text("priority", { enum: priorities }).default("low"),
   createdAt: integer("created_at", { mode: "timestamp" }).default(
     sql`(strftime('%s', 'now'))`,

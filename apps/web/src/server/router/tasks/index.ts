@@ -3,7 +3,7 @@ import { DeleteTasksRouter } from "@/server/router/tasks/delete";
 import { UpdateTasksRouter } from "@/server/router/tasks/update";
 import { GetTasksRouter } from "@/server/router/tasks/get";
 import { addTaskFormSchema } from "@/lib/typeSchema";
-import { tasks } from "@taskaider/db/src/schema";
+import { tasks } from "@taskaider/neon/src/schema";
 import { TRPCError } from "@trpc/server";
 
 export const TaskRouter = createTRPCRouter({

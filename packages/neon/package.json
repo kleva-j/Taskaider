@@ -1,0 +1,33 @@
+{
+  "name": "@taskaider/neon",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "generate": "drizzle-kit generate:pg",
+    "push": "drizzle-kit push:pg",
+    "migrate": "tsx src/migrate.ts",
+    "with-env": "dotenv -e .env --",
+    "dev": "pnpm with-env drizzle-kit studio --port 5556"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.6.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@t3-oss/env-core": "^0.6.1",
+    "drizzle-orm": "^0.28.6",
+    "drizzle-zod": "^0.5.1",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
+    "@types/node": "^20.8.2",
+    "dotenv": "^16.0.0",
+    "drizzle-kit": "^0.19.13",
+    "eslint-config-custom": "workspace:*",
+    "pg": "^8.11.3",
+    "postgres": "^3.4.0",
+    "tsconfig": "workspace:*",
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2"
+  }
+}
