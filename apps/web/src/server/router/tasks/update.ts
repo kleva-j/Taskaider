@@ -1,18 +1,18 @@
-import { PriorityEnum, StatusEnum, tasks } from "@taskaider/db/src/schema";
+import { PriorityEnum, StatusEnum, labelEnum } from "@/lib/typeSchema";
 import { createTRPCRouter, protectedProcedure } from "@/server/trpc";
 import { filterParams, isEmpty } from "@/lib/helper";
 import { updateBatchParams } from "@/lib/typeSchema";
+import { and, eq, tasks } from "@taskaider/neon";
 import { TRPCError } from "@trpc/server";
-import { and, eq } from "@taskaider/db";
 import { z } from "zod";
 
 export const UpdateTasksRouter = createTRPCRouter({
   single: protectedProcedure
     .input(
       z.object({
-        id: z.string().cuid2(),
+        id: z.number(),
         title: z.string(),
-        label: z.string().optional(),
+        label: labelEnum.optional(),
         status: StatusEnum.optional(),
         priority: PriorityEnum.optional(),
       }),
@@ -41,7 +41,7 @@ export const UpdateTasksRouter = createTRPCRouter({
   multiple: protectedProcedure
     .input(
       z.object({
-        ids: z.array(z.string().cuid2()).min(1),
+        ids: z.array(z.number()).min(1),
         params: updateBatchParams,
       }),
     )
@@ -54,7 +54,7 @@ export const UpdateTasksRouter = createTRPCRouter({
           throw new Error("Ensure update parameters are valid!");
 
         return await ctx.db.transaction(async (tx) => {
-          const result = await Promise.allSettled(
+          const [rows] = await Promise.allSettled(
             ids.map(
               async (id) =>
                 await tx
@@ -64,9 +64,9 @@ export const UpdateTasksRouter = createTRPCRouter({
                   .returning({ updatedId: tasks.id }),
             ),
           );
-          return result
-            .map((id) => (id.status === "fulfilled" ? id.value[0] : false))
-            .filter(Boolean);
+          if (rows.status !== "fulfilled")
+            throw new Error("Error updating tasks");
+          return rows.value;
         });
       } catch (err) {
         throw err;

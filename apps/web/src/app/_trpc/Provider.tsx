@@ -1,18 +1,26 @@
 "use client";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { httpBatchLink, loggerLink } from "@trpc/react-query";
 import { PropsWithChildren, useState } from "react";
-import { httpBatchLink } from "@trpc/react-query";
 import { trpc } from "@/app/_trpc/client";
 import { getBaseUrl } from "@/lib/auth";
 
 import SuperJSON from "superjson";
 
 export function Provider({ children }: PropsWithChildren) {
-  const [queryClient] = useState(() => new QueryClient({}));
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { staleTime: 10000 } },
+      }),
+  );
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      links: [httpBatchLink({ url: `${getBaseUrl()}/api/trpc` })],
+      links: [
+        loggerLink({ enabled: () => true }),
+        httpBatchLink({ url: `${getBaseUrl()}/api/trpc` }),
+      ],
       transformer: SuperJSON,
     }),
   );

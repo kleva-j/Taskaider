@@ -16,6 +16,7 @@ export default authMiddleware({
     "/api/random",
     "/api/webhook/clerk",
   ],
+  ignoredRoutes: ["/api/webhook/clerk"],
 });
 
 export const config = {

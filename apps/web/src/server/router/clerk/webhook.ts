@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { users } from "@taskaider/db/src/schema";
-import { eq } from "@taskaider/db";
+import { users } from "@taskaider/neon/src/schema";
+import { eq } from "@taskaider/neon";
 
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { clerkEvent } from "./type";
@@ -13,11 +13,10 @@ export const webhookProcedure = publicProcedure.input(
 export const webhookRouter = createTRPCRouter({
   userCreated: webhookProcedure.mutation(async ({ ctx, input }) => {
     if (input.data.type === "user.created") {
-      const alreadyExists = await ctx.db
+      const [alreadyExists] = await ctx.db
         .select({ id: users.id })
         .from(users)
-        .where(eq(users.tenantId, input.data.data.id))
-        .get();
+        .where(eq(users.tenantId, input.data.data.id));
       if (alreadyExists) return;
       await ctx.db
         .insert(users)
@@ -28,8 +27,7 @@ export const webhookRouter = createTRPCRouter({
           lastName: input.data.data.last_name || "",
           photoUrl: input.data.data.image_url || "",
         })
-        .returning()
-        .get();
+        .returning();
     }
   }),
   userUpdated: webhookProcedure.mutation(async ({ input }) => {
@@ -39,11 +37,10 @@ export const webhookRouter = createTRPCRouter({
   }),
   userSignedIn: webhookProcedure.mutation(async ({ input, ctx }) => {
     if (input.data.type === "session.created") {
-      const currentUser = await ctx.db
+      const [currentUser] = await ctx.db
         .select({ id: users.id, email: users.email })
         .from(users)
-        .where(eq(users.tenantId, input.data.data.user_id))
-        .get();
+        .where(eq(users.tenantId, input.data.data.user_id));
       // Then it's the new user it might be null
       if (!currentUser) return;
     }

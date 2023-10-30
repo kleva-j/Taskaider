@@ -1,11 +1,9 @@
-import {
-  availableStatus,
-  defaultLabels,
-  PriorityEnum,
-  priorities,
-  StatusEnum,
-} from "@taskaider/db/src/schema";
+import { availableStatus, priorities, defaultLabels } from "@taskaider/neon";
 import { z } from "zod";
+
+export const StatusEnum = z.enum(availableStatus);
+export const PriorityEnum = z.enum(priorities);
+export const labelEnum = z.enum(defaultLabels);
 
 export const addTaskFormSchema = z.object({
   title: z.string().min(1, "title is required"),

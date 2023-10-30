@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
-import { users } from "@taskaider/db/src/schema";
+import { users } from "@taskaider/neon";
 import { z } from "zod";
 
 export const UserRouter = createTRPCRouter({
@@ -13,13 +13,10 @@ export const UserRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      await ctx.db
-        .insert(users)
-        .values({ ...input })
-        .run();
-      return true;
+      const { rows } = await ctx.db.insert(users).values({ ...input });
+      return rows;
     }),
   getAll: publicProcedure.query(
-    async ({ ctx }) => await ctx.db.select().from(users).all(),
+    async ({ ctx }) => await ctx.db.select().from(users),
   ),
 });

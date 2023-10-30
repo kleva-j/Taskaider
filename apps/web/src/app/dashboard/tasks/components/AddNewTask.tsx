@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultLabels, priorities } from "@taskaider/db/src/schema";
+import { defaultLabels, priorities } from "@taskaider/neon";
 import { addTaskDefaultValues } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addTaskFormSchema } from "@/lib/typeSchema";
@@ -87,14 +87,14 @@ export const AddNewTask = (props: Props) => {
     onSettled: handleSettled,
   });
 
-  const schema = z.string().cuid2();
+  const schema = z.number();
 
   const onSubmit = (values: AddTaskSchemaType) => {
     setLoading(true);
     const parsedResult = schema.safeParse(props.id);
-    if (parsedResult.success)
+    if (parsedResult.success) {
       editTask.mutate({ id: parsedResult.data, ...values });
-    else addTask.mutate(values);
+    } else addTask.mutate(values);
   };
 
   return (

@@ -1,7 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/trpc";
 import { getBatchFilterQuery } from "@/lib/typeSchema";
-import { tasks } from "@taskaider/db/src/schema";
-import { and, asc, eq } from "@taskaider/db";
+import { and, asc, eq, tasks } from "@taskaider/neon";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -11,28 +10,38 @@ export const GetTasksRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
       const { limit, offset } = input;
-      return await ctx.db.query.tasks.findMany({
-        limit,
-        offset,
-        orderBy: [asc(tasks.id)],
-        where: eq(tasks.authorId, userId),
-      });
+      const result = await ctx.db
+        .select()
+        .from(tasks)
+        .where(eq(tasks.authorId, userId))
+        .orderBy(asc(tasks.id))
+        .offset(offset!)
+        .limit(limit);
+      return result;
     }),
   all: protectedProcedure.query(async ({ ctx }) => {
     const { id: userId } = ctx.user;
-    return await ctx.db.query.tasks.findMany({
-      where: eq(tasks.authorId, userId),
-    });
+    try {
+      const result = await ctx.db
+        .select()
+        .from(tasks)
+        .where(eq(tasks.authorId, userId));
+      return result;
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Error occured while fetching!`,
+      });
+    }
   }),
   single: protectedProcedure
-    .input(z.object({ id: z.string().cuid2() }))
+    .input(z.object({ id: z.number() }))
     .query(async ({ input, ctx }) => {
       const { id: userId } = ctx.user;
       const task = await ctx.db
         .select()
         .from(tasks)
-        .where(and(eq(tasks.id, input.id), eq(tasks.authorId, userId)))
-        .run();
+        .where(and(eq(tasks.id, input.id), eq(tasks.authorId, userId)));
       if (!task)
         throw new TRPCError({
           code: "NOT_FOUND",

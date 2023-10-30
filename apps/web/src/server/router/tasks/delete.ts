@@ -1,12 +1,11 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/trpc";
-import { tasks } from "@taskaider/db/src/schema";
+import { and, eq, tasks } from "@taskaider/neon";
 import { TRPCError } from "@trpc/server";
-import { and, eq } from "@taskaider/db";
 import { z } from "zod";
 
 export const DeleteTasksRouter = createTRPCRouter({
   single: protectedProcedure
-    .input(z.object({ id: z.string().cuid2() }))
+    .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       try {
         const { id: userId } = ctx.user;
@@ -25,11 +24,7 @@ export const DeleteTasksRouter = createTRPCRouter({
       }
     }),
   multiple: protectedProcedure
-    .input(
-      z.object({
-        ids: z.array(z.string().cuid2()).min(1),
-      }),
-    )
+    .input(z.object({ ids: z.array(z.number()).min(1) }))
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
       const { ids } = input;
