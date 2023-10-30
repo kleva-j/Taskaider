@@ -61,7 +61,7 @@ const handler = async (req: NextRequest) => {
 
   switch (evt.type) {
     case "user.created": {
-      await serverClient.clerk.webhooks.userCreated({ data: evt });
+      await serverClient(null).clerk.webhooks.userCreated({ data: evt });
       break;
     }
     case "user.updated":
@@ -70,7 +70,7 @@ const handler = async (req: NextRequest) => {
 
     case "session.created": {
       console.log("Session.Created Event", "<<<<====>>>>", evt.data.user_id);
-      await serverClient.clerk.webhooks.userSignedIn({ data: evt });
+      await serverClient(null).clerk.webhooks.userSignedIn({ data: evt });
       break;
     }
 

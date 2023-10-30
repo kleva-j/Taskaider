@@ -1,3 +1,5 @@
+import { auth, clerkClient } from "@clerk/nextjs";
+
 export const navigationHandle = {
   "sign-in": {
     to: "/sign-up",
@@ -20,4 +22,9 @@ export function getBaseUrl() {
   return process.env.NODE_ENV === "development"
     ? "https://localhost:3000"
     : process.env.VERCEL_URL;
+}
+
+export async function checkIfAuthed() {
+  const { userId } = auth();
+  return userId ? await clerkClient.users.getUser(userId) : null;
 }
