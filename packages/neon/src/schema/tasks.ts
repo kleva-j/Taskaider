@@ -12,16 +12,20 @@ export const availableStatus = [
 export const defaultLabels = ["documentation", "bug", "feature"] as const;
 export const priorities = ["low", "medium", "high"] as const;
 
+export const statusEnum = pgEnum("status", availableStatus);
+export const priorityEnum = pgEnum("priority", priorities);
+export const labelEnum = pgEnum("label", defaultLabels);
+
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
   title: text("title").default("").notNull(),
-  label: pgEnum("label", defaultLabels)("label"),
-  status: pgEnum("status", availableStatus)("status"),
-  priority: pgEnum("priority", priorities)("priority"),
+  label: labelEnum("label").default("feature"),
+  status: statusEnum("status").default("backlog"),
+  priority: priorityEnum("priority").default("medium"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   authorId: text("author_id")
-    .references(() => users.id, { onDelete: "cascade" })
+    .references(() => users.tenantId, { onDelete: "cascade" })
     .default(""),
 });
 
