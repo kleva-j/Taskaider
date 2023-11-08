@@ -37,7 +37,7 @@ export function DeleteTasks(props: Props) {
     props?.onCompleted && props.onCompleted();
   };
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const deleteTask = trpc.task.delete[mode].useMutation({
     onError: () =>

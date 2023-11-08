@@ -27,7 +27,7 @@ export function ToolbarSelectedAction<TData>({
 
   const { toast } = useToast();
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const updateTasks = trpc.task.update.multiple.useMutation({
     onError: () =>

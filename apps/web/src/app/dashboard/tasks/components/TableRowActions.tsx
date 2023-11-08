@@ -41,7 +41,7 @@ export function DataTableRowActions<TData>({
   const status = row.getValue("status") as string;
   const priority = row.getValue("priority") as string;
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const updateTasks = trpc.task.update.single.useMutation({
     onError: () =>
