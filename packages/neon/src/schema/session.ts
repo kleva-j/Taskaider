@@ -3,7 +3,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { users } from "./users";
 
 export const sessionStatus = ["active", "ended", "removed", "revoked"] as const;
-export const sessionStatusEnum = pgEnum("status", sessionStatus);
+export const sessionStatusEnum = pgEnum("sessionStatus", sessionStatus);
 
 export const sessions = pgTable("session", {
   id: text("session_id").primaryKey().notNull(),

@@ -18,6 +18,6 @@ export const sessionRelations = relations(sessions, ({ one }) => ({
 export const tasksRelations = relations(tasks, ({ one }) => ({
   author: one(users, {
     fields: [tasks.authorId],
-    references: [users.id],
+    references: [users.tenantId],
   }),
 }));

@@ -12,7 +12,7 @@ const db = drizzle(neon(env.DATABASE_URL));
 async function main(): Promise<void> {
   try {
     log("migration started...");
-    await migrate(db, { migrationsFolder: "drizzle" });
+    await migrate(db, { migrationsFolder: "./src/migrations" });
     log("migration ended...");
   } catch (err) {
     error("Error performing migration: ", err);

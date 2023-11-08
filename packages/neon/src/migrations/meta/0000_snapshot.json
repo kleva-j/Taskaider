@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "19a6d747-5e39-4b48-8f6d-6a9892bb760a",
+  "id": "606b1e65-3d59-4fbf-96d8-fe1fd6eedfa2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -105,19 +105,22 @@
           "name": "label",
           "type": "label",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'feature'"
         },
         "status": {
           "name": "status",
           "type": "status",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'backlog'"
         },
         "priority": {
           "name": "priority",
           "type": "priority",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'medium'"
         },
         "created_at": {
           "name": "created_at",
@@ -143,15 +146,15 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tasks_author_id_users_id_fk": {
-          "name": "tasks_author_id_users_id_fk",
+        "tasks_author_id_users_tenant_id_fk": {
+          "name": "tasks_author_id_users_tenant_id_fk",
           "tableFrom": "tasks",
           "tableTo": "users",
           "columnsFrom": [
             "author_id"
           ],
           "columnsTo": [
-            "id"
+            "tenant_id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -196,7 +199,7 @@
         },
         "status": {
           "name": "status",
-          "type": "status",
+          "type": "sessionStatus",
           "primaryKey": false,
           "notNull": false
         },
@@ -243,8 +246,34 @@
     }
   },
   "enums": {
+    "label": {
+      "name": "label",
+      "values": {
+        "documentation": "documentation",
+        "bug": "bug",
+        "feature": "feature"
+      }
+    },
+    "priority": {
+      "name": "priority",
+      "values": {
+        "low": "low",
+        "medium": "medium",
+        "high": "high"
+      }
+    },
     "status": {
       "name": "status",
+      "values": {
+        "backlog": "backlog",
+        "todo": "todo",
+        "in progress": "in progress",
+        "done": "done",
+        "cancelled": "cancelled"
+      }
+    },
+    "sessionStatus": {
+      "name": "sessionStatus",
       "values": {
         "active": "active",
         "ended": "ended",

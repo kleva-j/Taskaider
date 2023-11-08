@@ -1,5 +1,23 @@
 DO $$ BEGIN
- CREATE TYPE "status" AS ENUM('active', 'ended', 'removed', 'revoked');
+ CREATE TYPE "label" AS ENUM('documentation', 'bug', 'feature');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "priority" AS ENUM('low', 'medium', 'high');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "status" AS ENUM('backlog', 'todo', 'in progress', 'done', 'cancelled');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "sessionStatus" AS ENUM('active', 'ended', 'removed', 'revoked');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -19,9 +37,9 @@ CREATE TABLE IF NOT EXISTS "users" (
 CREATE TABLE IF NOT EXISTS "tasks" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" text DEFAULT '' NOT NULL,
-	"label" "label",
-	"status" "status",
-	"priority" "priority",
+	"label" "label" DEFAULT 'feature',
+	"status" "status" DEFAULT 'backlog',
+	"priority" "priority" DEFAULT 'medium',
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"author_id" text DEFAULT ''
@@ -33,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "session" (
 	"client_id" text NOT NULL,
 	"abandon_at" timestamp,
 	"last_active_at" timestamp,
-	"status" "status",
+	"status" "sessionStatus",
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"tenant_id" text DEFAULT ''
@@ -41,7 +59,7 @@ CREATE TABLE IF NOT EXISTS "session" (
 --> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "email_idx" ON "users" ("email");--> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "tasks" ADD CONSTRAINT "tasks_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "tasks" ADD CONSTRAINT "tasks_author_id_users_tenant_id_fk" FOREIGN KEY ("author_id") REFERENCES "users"("tenant_id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
