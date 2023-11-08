@@ -4,9 +4,15 @@ import UserProfile from "@/components/sidebar/user-profile";
 import NavItem from "@/components/sidebar/nav-item";
 
 import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "ui";
-import { Home, ListTodo, FolderKanban } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { LayoutGroup } from "framer-motion";
+import {
+  FolderKanban,
+  CalendarDays,
+  ListTodo,
+  Home,
+  Inbox,
+} from "lucide-react";
 
 const navItems = {
   "/dashboard": { name: "dashboard", icon: Home, label: "home" },
@@ -16,6 +22,12 @@ const navItems = {
     icon: FolderKanban,
     label: "projects",
   },
+  "/dashboard/calendar": {
+    name: "calendar",
+    icon: CalendarDays,
+    label: "Calendar",
+  },
+  "/dashboard/inbox": { name: "inbox", icon: Inbox, label: "Inbox" },
 };
 
 export default function Sidebar(): JSX.Element {
@@ -26,7 +38,7 @@ export default function Sidebar(): JSX.Element {
     <aside className="w-12 flex flex-col justify-between items-center py-2">
       <TooltipProvider delayDuration={800} skipDelayDuration={500}>
         <LayoutGroup>
-          <nav className="flex flex-col gap-y-2 items-center">
+          <nav className="flex flex-col gap-y-3 items-center">
             {Object.entries(navItems).map(([path, { name, icon, label }]) => {
               const props = { name, icon, label, path };
               return (

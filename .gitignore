@@ -192,4 +192,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # local sqlite database
 db.sqlite
 
+test.js
+
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
