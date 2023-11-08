@@ -1,6 +1,6 @@
 "use client";
 
-import { MagicLinkErrorCode, isMagicLinkError, useClerk } from "@clerk/nextjs";
+import { EmailLinkErrorCode, isEmailLinkError, useClerk } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { getBaseUrl } from "@/lib/auth";
 
@@ -8,19 +8,19 @@ import Link from "next/link";
 
 export default function UserVerification() {
   const [status, setStatus] = useState("loading");
-  const { handleMagicLinkVerification } = useClerk();
+  const { handleEmailLinkVerification } = useClerk();
 
   useEffect(() => {
     async function verify() {
       try {
-        await handleMagicLinkVerification({
+        await handleEmailLinkVerification({
           redirectUrl: `${getBaseUrl()}/dashboard`,
           redirectUrlComplete: `${getBaseUrl()}/dashboard`,
         });
         setStatus("verified");
       } catch (err: any) {
         let status = "failed";
-        if (isMagicLinkError(err) && err.code === MagicLinkErrorCode.Expired)
+        if (isEmailLinkError(err) && err.code === EmailLinkErrorCode.Expired)
           status = "expired";
         setStatus(status);
       }
