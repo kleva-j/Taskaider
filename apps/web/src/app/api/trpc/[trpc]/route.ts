@@ -1,6 +1,5 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { createContext } from "@/server/context";
-import { appRouter } from "@/server/router";
+import { appRouter, createContext } from "@taskaider/api";
 
 export const runtime = "edge";
 
