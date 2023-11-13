@@ -1,59 +1,36 @@
-import { PriorityEnum, StatusEnum, tasks } from "@taskaider/db/src/schema";
-import { createTRPCRouter, publicProcedure } from "@/trpc";
+import { tasks } from "@taskaider/neon/src/schema";
 import { TRPCError } from "@trpc/server";
-import { db, eq } from "@taskaider/db";
-import { z } from "zod";
 
-const authorIds = [
-  "zrjksvg95r3psg2il5qgqhal",
-  "lmdatq6dqajzup4g2xrv5w97",
-  "fq67tuaqzyiisxpht3tz3ea7",
-];
+import { createTRPCRouter, protectedProcedure } from "../../lib/trpc";
+import { DeleteTasksRouter } from "../../router/tasks/delete";
+import { UpdateTasksRouter } from "../../router/tasks/update";
+import { addTaskFormSchema } from "../../lib/typeSchema";
+import { GetTasksRouter } from "../../router/tasks/get";
 
 export const TaskRouter = createTRPCRouter({
-  create: publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    await db
-      .insert(tasks)
-      .values({ title: input, authorId: authorIds[0] })
-      .returning()
-      .get();
-  }),
-  getAll: publicProcedure.query(
-    async () => await db.select().from(tasks).all(),
-  ),
-  getById: publicProcedure
-    .input(z.object({ id: z.string().cuid2() }))
-    .query(async ({ input }) => {
-      const result = db
-        .select()
-        .from(tasks)
-        .where(eq(tasks.id, input.id))
-        .run();
-      if (!result)
+  create: protectedProcedure
+    .input(addTaskFormSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.db
+          .insert(tasks)
+          .values({ ...input, authorId: ctx.user.id })
+          .returning();
+      } catch (err: any) {
+        console.log({ err });
+        if (err.code === "P2002") {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Task with that id already exists",
+          });
+        }
         throw new TRPCError({
-          code: "NOT_FOUND",
-          message: `Task with id ${input.id} not found`,
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An error occured while processing your request.",
         });
-      return result;
+      }
     }),
-  update: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        label: z.string(),
-        status: StatusEnum,
-        priority: PriorityEnum,
-        title: z.string().optional(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const { id, ...update } = input;
-      const result = await db
-        .update(tasks)
-        .set({ ...update })
-        .where(eq(tasks.id, id))
-        .returning()
-        .get();
-      return result;
-    }),
+  get: GetTasksRouter,
+  update: UpdateTasksRouter,
+  delete: DeleteTasksRouter,
 });
