@@ -16,6 +16,14 @@ export const addTaskFormSchema = z.object({
   status: z.enum(availableStatus).default("backlog"),
 });
 
+export const updateTaskSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  label: labelEnum.optional(),
+  status: StatusEnum.optional(),
+  priority: PriorityEnum.optional(),
+});
+
 export const updateBatchParams = z
   .array(
     z.object({
@@ -26,9 +34,17 @@ export const updateBatchParams = z
   )
   .min(1);
 
+export const updateBatchSchema = z.object({
+  ids: z.array(z.number()).min(1),
+  params: updateBatchParams,
+});
+
 export const getBatchFilterQuery = z.object({
   limit: z.number(),
   offset: z.number().optional(),
 });
 
+export type AddTaskInputType = z.infer<typeof addTaskFormSchema>;
+export type updateBatchInputType = z.infer<typeof updateBatchSchema>;
+export type updateTaskInputType = z.infer<typeof updateTaskSchema>;
 export type paramsType = z.infer<typeof updateBatchParams>;

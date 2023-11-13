@@ -1,12 +1,14 @@
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 
-import { UserRouter } from "@/router/users";
-import { TaskRouter } from "@/router/tasks";
-import { createTRPCRouter } from "@/trpc";
+import { createTRPCRouter } from "../lib/trpc";
+import { clerkRouter } from "./clerk/webhook";
+import { UserRouter } from "../router/users";
+import { TaskRouter } from "../router/tasks";
 
 export const appRouter = createTRPCRouter({
   user: UserRouter,
   task: TaskRouter,
+  clerk: clerkRouter,
 });
 
 export type AppRouter = typeof appRouter;
