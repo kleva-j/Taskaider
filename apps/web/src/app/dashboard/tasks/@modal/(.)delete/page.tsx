@@ -8,11 +8,9 @@ export default function ({ searchParams }) {
   const { id } = searchParams;
   const { back } = useRouter();
 
-  const onCompleted = () => back();
+  if (!id) return <RedirectToTasks />;
 
-  return id ? (
-    <DeleteTasks taskIds={[id]} mode={Mode.single} onCompleted={onCompleted} />
-  ) : (
-    <RedirectToTasks />
+  return (
+    <DeleteTasks ids={[id]} mode={Mode.single} onCompleted={() => back()} />
   );
 }
