@@ -1,6 +1,6 @@
 "use client";
 
-import { trpc } from "@/app/_trpc/client";
+import { deleteTaskAction } from "@/app/actions";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import {
@@ -21,14 +21,14 @@ export enum Mode {
 }
 
 interface Props {
-  taskIds: string[];
+  ids: string[];
   mode: Mode;
   onCompleted?: () => void;
   isOpen?: boolean;
 }
 
 export function DeleteTasks(props: Props) {
-  const { mode, taskIds, isOpen = true } = props;
+  const { mode, isOpen = true } = props;
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -37,29 +37,28 @@ export function DeleteTasks(props: Props) {
     props?.onCompleted && props.onCompleted();
   };
 
-  const utils = trpc.useUtils();
-
-  const deleteTask = trpc.task.delete[mode].useMutation({
-    onError: () =>
-      toast({
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with deleting this task.",
-        variant: "destructive",
-      }),
-    onSuccess: () => {
-      utils.task.get.all.invalidate();
+  const handleDelete = async () => {
+    try {
+      const ids = props.ids.map(Number);
+      await deleteTaskAction({ id: ids[0], ids }, mode);
       toast({
         title: "😔 Task(s) deleted!",
         description: "Your task(s) have been successfully deleted.",
         className: "border-blue-400",
       });
-    },
-    onSettled: handleClose,
-  });
+    } catch (err) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with deleting task(s).",
+        variant: "destructive",
+      });
+    }
+  };
 
-  const onTaskDelete = () => {
+  const onTaskDelete = async () => {
     setLoading(true);
-    deleteTask.mutateAsync({ id: taskIds[0], ids: taskIds });
+    await handleDelete();
+    handleClose();
   };
 
   return (

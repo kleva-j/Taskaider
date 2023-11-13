@@ -1,12 +1,12 @@
 "use client";
 
+import { addTaskAction, editTaskAction } from "@/app/actions";
 import { defaultLabels, priorities } from "@taskaider/neon";
 import { addTaskDefaultValues } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addTaskFormSchema } from "@/lib/typeSchema";
-import { AddTaskSchemaType } from "@/types";
+import { AddTaskInputType } from "@taskaider/api";
 import { useForm } from "react-hook-form";
-import { trpc } from "@/app/_trpc/client";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
@@ -21,80 +21,79 @@ import {
   FormLabel,
   FormField,
   FormItem,
-  useToast,
   Button,
   Select,
+  toast,
   Input,
   Form,
 } from "ui";
 
 type Props = {
-  defaultValues?: AddTaskSchemaType;
+  defaultValues?: AddTaskInputType;
   handleClose: () => void;
   id?: string;
 };
 
 export const AddNewTask = (props: Props) => {
   const { defaultValues, handleClose } = props;
-  const form = useForm<AddTaskSchemaType>({
+  const form = useForm<AddTaskInputType>({
     resolver: zodResolver(addTaskFormSchema),
     defaultValues: defaultValues || addTaskDefaultValues,
   });
   const [loading, setLoading] = useState(false);
-
-  const { toast } = useToast();
-
-  const utils = trpc.useContext();
 
   const handleSettled = () => {
     setLoading(false);
     handleClose();
   };
 
-  const editTask = trpc.task.update.single.useMutation({
-    onError: () =>
-      toast({
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with editing this task.",
-        variant: "destructive",
-      }),
-    onSuccess: () => {
-      utils.task.get.all.invalidate();
+  const handleEdit = async (values: AddTaskInputType & { id: number }) => {
+    try {
+      await editTaskAction({ ...values });
       toast({
         title: "🎉 Task updated!",
         description: "You have successfull edited this task.",
         className: "border-teal-400",
       });
-    },
-    onSettled: handleSettled,
-  });
-
-  const addTask = trpc.task.create.useMutation({
-    onError: () =>
+    } catch (err) {
+      const error = err as Error;
       toast({
         title: "Uh oh! Something went wrong.",
-        description: "There was a problem with adding new task.",
+        description: error.message,
         variant: "destructive",
-      }),
-    onSuccess: () => {
-      utils.task.get.all.invalidate();
+      });
+    }
+  };
+
+  const handleCreate = async (data: AddTaskInputType) => {
+    try {
+      await addTaskAction(data);
       toast({
         title: "🎉 New task added!",
         description: "You have successfull added a new task.",
         className: "border-teal-400",
       });
-    },
-    onSettled: handleSettled,
-  });
+    } catch (err: unknown) {
+      const error = err as Error;
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
-  const schema = z.number();
-
-  const onSubmit = (values: AddTaskSchemaType) => {
+  const onSubmit = async (values: AddTaskInputType) => {
     setLoading(true);
-    const parsedResult = schema.safeParse(props.id);
+    const parsedResult = z
+      .string()
+      .regex(/^\d+$/)
+      .transform(Number)
+      .safeParse(props.id);
     if (parsedResult.success) {
-      editTask.mutate({ id: parsedResult.data, ...values });
-    } else addTask.mutate(values);
+      await handleEdit({ id: parsedResult.data, ...values });
+    } else await handleCreate(values);
+    handleSettled();
   };
 
   return (
