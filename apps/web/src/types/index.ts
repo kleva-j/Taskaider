@@ -1,7 +1,3 @@
-import { addTaskFormSchema } from "@/lib/typeSchema";
-import { z } from "zod";
-
-export type AddTaskSchemaType = z.infer<typeof addTaskFormSchema>;
 export enum PriorityEnum {
   low = "low",
   medium = "medium",

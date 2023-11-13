@@ -1,6 +1,6 @@
-import { AddTaskSchemaType } from "@/types";
+import { AddTaskInputType } from "@taskaider/api";
 
-export const addTaskDefaultValues: AddTaskSchemaType = {
+export const addTaskDefaultValues: AddTaskInputType = {
   title: "",
   priority: "medium",
   label: "feature",

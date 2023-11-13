@@ -1,9 +1,10 @@
 "use client";
 
-import { AddTaskSchemaType, Label, PriorityEnum, StatusEnum } from "@/types";
 import { AddNewTask } from "@/app/dashboard/tasks/components/AddNewTask";
 import { DialogContent, DialogHeader, DialogTitle, Dialog } from "ui";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Label, PriorityEnum, StatusEnum } from "@/types";
+import { AddTaskInputType } from "@taskaider/api";
 
 export const Modal = ({ title }) => {
   const searchParams = useSearchParams();
@@ -25,7 +26,7 @@ export const Modal = ({ title }) => {
               priority: searchParams.get("priority") || PriorityEnum.medium,
               status: searchParams.get("status") || StatusEnum.backlog,
               label: searchParams.get("label") || Label.feature,
-            } as AddTaskSchemaType
+            } as AddTaskInputType
           }
           handleClose={handleClose}
           id={searchParams.get("id") || ""}

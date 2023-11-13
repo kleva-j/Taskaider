@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { serverClient } from "@/server";
+import { serverClient } from "@taskaider/api";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { env } from "@/env";
