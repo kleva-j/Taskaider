@@ -18,6 +18,8 @@ async function generateDefaultUser(): Promise<User> {
       firstName: "Michael",
       lastName: "Obasi",
       email: "kasmickleva@gmail.com",
+      photoUrl:
+        "https://ui-avatars.com/api/?background=random&name=Michael+Obasi",
     })
     .returning();
   return user as User;
