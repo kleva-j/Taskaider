@@ -1,7 +1,7 @@
 export default function App() {
   return (
-    <div className="">
+    <article className="p-4 flex-1 h-full overflow-y-auto">
       <p className="text-foreground">App page</p>
-    </div>
+    </article>
   );
 }

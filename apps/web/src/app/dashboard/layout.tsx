@@ -11,9 +11,7 @@ export default function AuthedLayout(props: Props): JSX.Element {
       <Header />
       <section className="flex divide-x-[0.5px] flex-1 divide-border h-[calc(100vh_-_48px)] fixed bottom-0 w-screen">
         <Sidebar />
-        <article className="p-4 flex-1 h-full overflow-y-auto">
-          {props.children}
-        </article>
+        {props.children}
       </section>
     </section>
   );
