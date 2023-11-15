@@ -1,4 +1,5 @@
 import { paramsType } from "@/lib/typeSchema";
+import { faker } from "@faker-js/faker";
 
 export const removeFalsyValuesFromObject = <T>(obj: T): T => {
   // @ts-ignore
@@ -46,3 +47,16 @@ export function isBase64Image(imageData: string) {
   const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
   return base64Regex.test(imageData);
 }
+
+export const generateEmails = (size: number) => {
+  const folders = ["inbox", "important", "sent"];
+  return Array.from({ length: size }, () => ({
+    id: faker.string.nanoid(),
+    address: faker.internet.email(),
+    sent_date: faker.date.anytime(),
+    body: faker.lorem.paragraph(2),
+    subject: faker.lorem.words({ min: 3, max: 5 }),
+    isRead: faker.datatype.boolean(),
+    folder: folders[Math.floor(Math.random() * folders.length)],
+  }));
+};
