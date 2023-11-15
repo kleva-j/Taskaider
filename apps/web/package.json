@@ -32,12 +32,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
+    "react-mosaic-component": "^6.1.0",
     "superjson": "^2.2.0",
     "svix": "^1.13.0",
     "ui": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@next/eslint-plugin-next": "^14.0.1",
     "@types/node": "^20.8.10",
     "@types/react": "^18.2.36",
