@@ -1,0 +1,7 @@
+.mosaic.mosaic-blueprint-theme {
+  background: transparent;
+}
+
+.mosaic-split .mosaic-split-line {
+  box-shadow: 0 0 0 1px theme("colors.border");
+}
