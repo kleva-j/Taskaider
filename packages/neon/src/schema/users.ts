@@ -1,5 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { createId } from "@paralleldrive/cuid2";
+import type { z } from "zod";
 import {
   uniqueIndex,
   timestamp,
@@ -27,6 +28,9 @@ export const users = pgTable(
 
 export type User = typeof users.$inferSelect; // return type when queried
 export type InsertUser = typeof users.$inferInsert; // insert type
+export type UserId = z.infer<typeof userIdSchema>["id"];
 
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
+export const userIdSchema = selectUserSchema.pick({ id: true });
+export const updateUserSchema = selectUserSchema;

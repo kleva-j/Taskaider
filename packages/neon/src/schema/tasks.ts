@@ -1,5 +1,6 @@
 import { pgTable, serial, pgEnum, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import type { z } from "zod";
 import { users } from "./users";
 
 export const availableStatus = [
@@ -31,6 +32,9 @@ export const tasks = pgTable("tasks", {
 
 export type Task = typeof tasks.$inferSelect; // return type when queried
 export type InsertTask = typeof tasks.$inferInsert; // insert type
+export type TaskId = z.infer<typeof taskIdSchema>["id"];
 
 export const insertTaskSchema = createInsertSchema(tasks);
 export const selectTaskSchema = createSelectSchema(tasks);
+export const taskIdSchema = selectTaskSchema.pick({ id: true });
+export const updateTaskSchema = selectTaskSchema;

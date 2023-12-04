@@ -1,5 +1,6 @@
 import { pgTable, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import type { z } from "zod";
 import { users } from "./users";
 
 export const sessionStatus = ["active", "ended", "removed", "revoked"] as const;
@@ -21,6 +22,9 @@ export const sessions = pgTable("session", {
 
 export type Session = typeof sessions.$inferSelect;
 export type InsertSession = typeof sessions.$inferInsert;
+export type SessionId = z.infer<typeof sessionIdSchema>["id"];
 
 export const insertSessionSchema = createInsertSchema(sessions);
 export const selectSessionSchema = createSelectSchema(sessions);
+export const sessionIdSchema = selectSessionSchema.pick({ id: true });
+export const updateSessionSchema = selectSessionSchema;
