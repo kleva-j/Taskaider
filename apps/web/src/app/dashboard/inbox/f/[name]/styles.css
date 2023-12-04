@@ -5,3 +5,10 @@
 .mosaic-split .mosaic-split-line {
   box-shadow: 0 0 0 1px theme("colors.border");
 }
+
+.mosaic-root {
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}

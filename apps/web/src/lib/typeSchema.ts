@@ -31,4 +31,25 @@ export const getBatchFilterQuery = z.object({
   offset: z.number().optional(),
 });
 
+const hub = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  fullName: z.string(),
+  email: z.string().email(),
+  avatar: z.string().url(),
+});
+
+export const emailSchema = z.object({
+  id: z.string().uuid({ message: "Id should be of UUID format" }),
+  subject: z.string(),
+  body: z.array(z.string()).min(1),
+  folder: z.set(z.string()).nonempty({ message: "Ensure folder is set" }),
+  opened: z.boolean(),
+  date_sent: z.date(),
+  recipient: hub,
+  sender: hub,
+});
+
+export const emailListSchema = z.array(emailSchema);
+
 export type paramsType = z.infer<typeof updateBatchParams>;
