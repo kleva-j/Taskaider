@@ -63,4 +63,16 @@ module.exports = {
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
+  redirects() {
+    return [
+      {
+        source: "/dashboard/inbox",
+        destination: "/dashboard/inbox/f/inbox",
+        permanent: false,
+      },
+    ];
+  },
+  experimental: {
+    esmExternals: "loose",
+  },
 };

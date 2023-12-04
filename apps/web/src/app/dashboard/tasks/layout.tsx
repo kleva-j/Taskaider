@@ -12,9 +12,11 @@ interface LayoutProps extends PropsWithChildren {
 
 export default async function (props: LayoutProps) {
   return (
-    <div className="flex flex-1 flex-col space-y-8 p-8">
-      {props.children}
-      {props.modal}
-    </div>
+    <article className="flex-1 h-full overflow-y-auto">
+      <div className="flex flex-1 flex-col space-y-8 p-8">
+        {props.children}
+        {props.modal}
+      </div>
+    </article>
   );
 }

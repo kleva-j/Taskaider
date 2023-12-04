@@ -5,7 +5,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/public/*": ["./public/*"],
-      "@/tasks/*": ["./src/app/dashboard/tasks/*"]
+      "@/tasks/*": ["./src/app/dashboard/tasks/*"],
+      "@/calendar/*": ["./src/app/dashboard/calendar/*"],
+      "@/projects/*": ["./src/app/dashboard/projects/*"],
+      "@/inbox/*": ["./src/app/dashboard/inbox/*"]
     }
   },
   "include": [
