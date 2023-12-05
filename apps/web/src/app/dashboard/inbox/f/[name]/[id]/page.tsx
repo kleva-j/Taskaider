@@ -1,6 +1,7 @@
 "use client";
 
 import { SelectedEmailColumn } from "@/inbox/components/SelectedEmailColumn";
+import { CreateNewInbox } from "@/app/dashboard/inbox/components/NewInbox";
 import { UseInboxContext } from "@/inbox/components/InboxContext";
 import { emailSchema } from "@/lib/typeSchema";
 import { z } from "zod";
@@ -16,6 +17,8 @@ type PageProps = {
 };
 
 export default function ({ params }: PageProps) {
+  if (params.id === "new") return <CreateNewInbox />;
+
   const { id, name: folderName } = paramsSchema.parse(params);
 
   const context = UseInboxContext();
