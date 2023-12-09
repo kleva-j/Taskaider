@@ -53,3 +53,14 @@ export const emailSchema = z.object({
 export const emailListSchema = z.array(emailSchema);
 
 export type paramsType = z.infer<typeof updateBatchParams>;
+
+export const inboxFormSchema = z.object({
+  subject: z
+    .string()
+    .min(1, { message: "Subject is not long enough!" })
+    .max(100, { message: "Subject is a bit too long" }),
+  body: z.string(),
+  to: z.string(),
+});
+
+export type inboxFormSchemaType = z.infer<typeof inboxFormSchema>;

@@ -22,8 +22,9 @@ export const filterParams = (params: paramsType) => {
   return filteredObj;
 };
 
-export const isEmpty = (obj: Record<string, any>) =>
-  obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+export function isEmpty<T>(obj: T): boolean {
+  return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+}
 
 export function formatDateString(dateString: string) {
   const options: Intl.DateTimeFormatOptions = {
@@ -87,6 +88,32 @@ export const generateEmails = (size: number) => {
       sender: pickAtRandom(recipients.slice(!isSender ? 0 : 1)),
     };
   });
+};
+
+export const fakeUserEmailRecords = () => {
+  const user = generateUser();
+  const contacts = Array.from({ length: 6 }, () => generateUser());
+  const recipients = [user].concat(contacts);
+
+  const emails = Array.from({ length: 10 }, () => {
+    const recipient = pickAtRandom(recipients);
+    const isSender = recipient.email === user.email;
+    const folder = new Set(["inbox"]);
+
+    return {
+      recipient,
+      id: faker.string.uuid(),
+      date_sent: faker.date.recent(),
+      body: Array.from({ length: faker.number.int({ min: 1, max: 4 }) }, () =>
+        faker.lorem.paragraph({ min: 3, max: 10 }),
+      ),
+      folder: isSender ? folder.add("sent") : folder,
+      subject: faker.lorem.words({ min: 2, max: 4 }),
+      opened: isSender ? true : faker.datatype.boolean(),
+      sender: pickAtRandom(recipients.slice(!isSender ? 0 : 1)),
+    };
+  });
+  return { user, contacts, emails };
 };
 
 export const getInitials = (fullName: string) => {

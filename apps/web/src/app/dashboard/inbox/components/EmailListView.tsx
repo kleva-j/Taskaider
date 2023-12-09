@@ -23,7 +23,7 @@ export const EmailListView = ({ emails }: { emails: EmailListType }) => {
               <AvatarFallback>{getInitials(recipient.fullName)}</AvatarFallback>
             </Avatar>
 
-            <div className="flex flex-col gap-y-2">
+            <div className="flex flex-col flex-1 gap-y-2">
               <div className="flex items-center">
                 <p className="text-xs leading-none capitalize text-muted-foreground">
                   {recipient.fullName}
@@ -56,7 +56,7 @@ export const EmailListView = ({ emails }: { emails: EmailListType }) => {
                 </div>
 
                 <p className="w-full text-[13px] line-clamp-2 text-muted-foreground">
-                  {body}
+                  {body[0].slice(0, 100)}
                 </p>
               </div>
             </div>

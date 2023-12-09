@@ -1,4 +1,8 @@
-import { EmailListType, generateEmails } from "@/lib/helper";
+import {
+  type EmailListType,
+  type fakeUserType,
+  fakeUserEmailRecords,
+} from "@/lib/helper";
 import {
   type PropsWithChildren,
   createContext,
@@ -8,7 +12,11 @@ import {
 
 type FolderMapType = Record<"inbox" | "sent", Folder>;
 type Folder = { name: string; count: number; total: number };
-type InboxContextType = { emails: EmailListType; folderMap: FolderMapType };
+type InboxContextType = {
+  emails: EmailListType;
+  folderMap: FolderMapType;
+  contacts: fakeUserType[];
+};
 
 const InboxContext = createContext<InboxContextType | null>(null);
 
@@ -20,7 +28,7 @@ export function UseInboxContext() {
 }
 
 export const InboxProvider = ({ children }: PropsWithChildren) => {
-  const emails = generateEmails(10);
+  const { emails, contacts } = fakeUserEmailRecords();
 
   const folderMap: FolderMapType = emails.reduce(
     (acc, { opened, folder }) => {
@@ -35,7 +43,7 @@ export const InboxProvider = ({ children }: PropsWithChildren) => {
     },
   );
 
-  const [state] = useState({ emails, folderMap });
+  const [state] = useState({ emails, folderMap, contacts });
 
   return (
     <InboxContext.Provider value={state}>{children}</InboxContext.Provider>
