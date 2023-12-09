@@ -1,67 +1,42 @@
 "use client";
 
+import { inboxFormSchema, inboxFormSchemaType } from "@/lib/typeSchema";
+import { SelectContact } from "@/inbox/components/SelectContact";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tiptap } from "@/inbox/components/Tiptap";
+import { fakeUserType } from "@/lib/helper";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { z } from "zod";
 import {
-  PopoverContent,
-  PopoverTrigger,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+  AvatarFallback,
   FormControl,
+  AvatarImage,
   FormMessage,
   FormLabel,
   FormField,
   FormItem,
-  Command,
-  Popover,
+  Avatar,
   Button,
   Input,
   Form,
 } from "ui";
 
-const contacts = [
-  { value: "next.js", label: "Next.js" },
-  { value: "sveltekit", label: "SvelteKit" },
-  { value: "nuxt.js", label: "Nuxt.js" },
-  { value: "remix", label: "Remix" },
-  { value: "astro", label: "Astro" },
-];
-
-const formSchema = z.object({
-  subject: z
-    .string()
-    .min(1, { message: "Subject is not long enough!" })
-    .max(100, { message: "Subject is a bit too long" }),
-  body: z.string(),
-  to: z.string(),
-});
-
-type formSchemaType = z.infer<typeof formSchema>;
-type Contact = {
-  value: string;
-  label: string;
-};
-
 export function CreateNewInbox() {
-  const [open, setOpen] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedContact, setSelectedContact] = useState<fakeUserType | null>(
+    null,
+  );
 
-  const form = useForm<formSchemaType>({
+  const form = useForm<inboxFormSchemaType>({
     mode: "onChange",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(inboxFormSchema),
     defaultValues: { subject: "", body: "" },
   });
 
   return (
-    <main className="px-3">
+    <main className="flex gap-x-3">
       <Form {...form}>
-        <form className="space-y-3">
+        <form className="space-y-3 flex-1">
           <FormField
             control={form.control}
             name="subject"
@@ -72,9 +47,9 @@ export function CreateNewInbox() {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
+                    type="text"
                     autoCorrect="off"
-                    autoComplete="email"
+                    autoComplete="text"
                     autoCapitalize="none"
                     className="invalid:border-red-500"
                     {...field}
@@ -86,47 +61,24 @@ export function CreateNewInbox() {
           />
           <div className="flex items-center space-x-4">
             <p className="text-sm text-muted-foreground">Send to: </p>
-
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-[150px] justify-start text-muted-foreground"
-                >
-                  {selectedContact ? (
-                    <>{selectedContact.label}</>
-                  ) : (
-                    <>+ Select Contact</>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="p-0" side="right" align="start">
-                <Command>
-                  <CommandInput placeholder="Change status..." />
-                  <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup>
-                      {contacts.map((status) => (
-                        <CommandItem
-                          key={status.value}
-                          value={status.value}
-                          onSelect={(value) => {
-                            setSelectedContact(
-                              contacts.find(
-                                (priority) => priority.value === value,
-                              ) || null,
-                            );
-                            setOpen(false);
-                          }}
-                        >
-                          {status.label}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(!open)}
+              className="justify-start text-muted-foreground"
+            >
+              {selectedContact ? (
+                <>
+                  <Avatar className="h-5 w-5 mr-2">
+                    <AvatarImage src={selectedContact!.avatar} alt="Image" />
+                    <AvatarFallback>OM</AvatarFallback>
+                  </Avatar>
+                  {selectedContact.fullName}
+                </>
+              ) : (
+                <>+ Select Contact</>
+              )}
+            </Button>
           </div>
           <FormField
             control={form.control}
@@ -143,6 +95,11 @@ export function CreateNewInbox() {
           />
         </form>
       </Form>
+      <SelectContact
+        isOpen={open}
+        setOpen={setOpen}
+        setContact={setSelectedContact}
+      />
     </main>
   );
 }
