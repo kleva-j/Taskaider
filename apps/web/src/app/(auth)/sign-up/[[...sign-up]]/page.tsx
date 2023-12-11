@@ -1,56 +1,48 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle, useToast } from "ui";
-import { AlertCircle, Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSignUp } from "@clerk/nextjs";
 import { getBaseUrl } from "@/lib/auth";
 import {
+  checkEmailNotifification,
+  handleAuthState,
   SignInOAuthBtn,
   FormSchemaType,
   UserAuthForm,
+  useAuthState,
+  MoreText,
 } from "@/app/(auth)/_components";
-import { useState } from "react";
 
 export default function SignUpPage(): JSX.Element {
-  const [isLoading, setLoading] = useState(false);
-  const [verified, setVerified] = useState(false);
-  const [expired, setExpired] = useState(false);
+  const { setLoading, setExpired, setVerified, ...rest } = useAuthState();
+  const { ver, exp, loading, onSubmitStart } = rest;
   const { push } = useRouter();
-  const { toast } = useToast();
 
   const { signUp, isLoaded, setActive } = useSignUp();
-  const magicLink = signUp?.createMagicLinkFlow();
+  const magicLink = signUp?.createEmailLinkFlow();
 
-  const handleSubmit = async ({ email }: FormSchemaType) => {
-    setVerified(false);
-    setExpired(false);
-    setLoading(true);
+  const onSubmit = async ({ email }: FormSchemaType) => {
+    onSubmitStart();
+
+    const redirectUrl = `${getBaseUrl()}/verification`;
 
     if (signUp && magicLink) {
       await signUp?.create({ emailAddress: email });
 
-      toast({
-        title: "📧 Check Your Email",
-        description: "A verification link has been sent to your email.",
-        className: "border-teal-400",
-      });
+      checkEmailNotifification();
 
-      const su = await magicLink?.startMagicLinkFlow({
-        redirectUrl: `${getBaseUrl()}/verification`,
-      });
+      const res = await magicLink?.startEmailLinkFlow({ redirectUrl });
+      const { verifications, createdSessionId, status } = res;
 
-      const verification = su.verifications.emailAddress;
+      const verification = verifications.emailAddress;
 
       if (verification.verifiedFromTheSameClient()) {
         setVerified(true);
         setLoading(false);
         return;
-      } else if (verification.status === "expired") {
-        setExpired(true);
-      }
-      if (su.status === "complete") {
-        setActive({ session: su.createdSessionId || "" });
+      } else if (verification.status === "expired") setExpired(true);
+      if (status === "complete") {
+        setActive({ session: createdSessionId ?? "" });
         push("/dashboard");
         return;
       }
@@ -58,44 +50,13 @@ export default function SignUpPage(): JSX.Element {
     setLoading(false);
   };
 
-  if (expired) {
-    return (
-      <Alert>
-        <AlertCircle />
-        <AlertTitle>Oops!</AlertTitle>
-        <AlertDescription>Magic link has expired.</AlertDescription>
-      </Alert>
-    );
-  }
-
-  if (verified) {
-    return (
-      <Alert>
-        <Rocket />
-        <AlertTitle>Heads up!</AlertTitle>
-        <AlertDescription>Signed in on other tab</AlertDescription>
-      </Alert>
-    );
-  }
+  handleAuthState(exp, ver);
 
   return (
-    <UserAuthForm
-      isLoaded={isLoaded}
-      isLoading={isLoading}
-      onSubmit={handleSubmit}
-    >
+    <UserAuthForm isLoaded={isLoaded} isLoading={loading} onSubmit={onSubmit}>
       <>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <SignInOAuthBtn isLoaded={isLoaded} isLoading={isLoading} />
+        <MoreText />
+        <SignInOAuthBtn isLoaded={isLoaded} isLoading={loading} />
       </>
     </UserAuthForm>
   );

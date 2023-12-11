@@ -16,23 +16,14 @@ import {
 
 const navItems = {
   "/dashboard": { name: "dashboard", icon: Home, label: "home" },
-  "/dashboard/tasks": { name: "tasks", icon: ListTodo, label: "tasks" },
-  "/dashboard/projects": {
-    name: "projects",
-    icon: FolderKanban,
-    label: "projects",
-  },
-  "/dashboard/calendar": {
-    name: "calendar",
-    icon: CalendarDays,
-    label: "Calendar",
-  },
-  "/dashboard/inbox": { name: "inbox", icon: Inbox, label: "Inbox" },
+  "/projects": { name: "projects", icon: FolderKanban, label: "projects" },
+  "/tasks": { name: "tasks", icon: ListTodo, label: "tasks" },
+  "/calendar": { name: "calendar", icon: CalendarDays, label: "Calendar" },
+  "/inbox": { name: "inbox", icon: Inbox, label: "Inbox" },
 };
 
 export default function Sidebar(): JSX.Element {
   let pathname = usePathname() || "/";
-  if (pathname.includes("/tasks/")) pathname = "/tasks";
 
   return (
     <aside className="w-12 flex flex-col justify-between items-center py-2">

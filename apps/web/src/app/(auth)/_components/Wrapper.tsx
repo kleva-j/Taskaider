@@ -9,9 +9,7 @@ import { buttonVariants, cn } from "ui";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
 
-export function AuthPageWrapper(props: PropsWithChildren): JSX.Element {
-  const { children } = props;
-
+export function AuthPageWrapper({ children }: PropsWithChildren) {
   let path = navigationHandle[usePathname().split("/")[1]];
 
   return (
