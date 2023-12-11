@@ -64,3 +64,4 @@ export const inboxFormSchema = z.object({
 });
 
 export type inboxFormSchemaType = z.infer<typeof inboxFormSchema>;
+export type NonUndefined<T> = T extends undefined ? never : T;

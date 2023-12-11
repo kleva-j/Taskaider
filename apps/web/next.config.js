@@ -66,8 +66,8 @@ module.exports = {
   redirects() {
     return [
       {
-        source: "/dashboard/inbox",
-        destination: "/dashboard/inbox/f/inbox",
+        source: "/inbox",
+        destination: "/inbox/f/inbox",
         permanent: false,
       },
     ];

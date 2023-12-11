@@ -14,7 +14,7 @@ export async function addTaskAction(data: AddTaskInputType) {
   try {
     const user = await checkIfAuthed();
     await serverClient(user).task.create({ ...data });
-    revalidatePath("/dashboard/tasks");
+    revalidatePath("/tasks");
   } catch (error) {
     throw error;
   }
@@ -24,7 +24,7 @@ export async function editTaskAction(params: updateTaskInputType) {
   try {
     const user = await checkIfAuthed();
     await serverClient(user).task.update.single({ ...params });
-    revalidatePath("/dashboard/tasks");
+    revalidatePath("/tasks");
   } catch (error) {
     throw error;
   }
@@ -35,7 +35,7 @@ export async function editMultipleTasksAction(input: updateBatchInputType) {
   try {
     const user = await checkIfAuthed();
     await serverClient(user).task.update.multiple({ ids, params });
-    revalidatePath("/dashboard/tasks");
+    revalidatePath("/tasks");
   } catch (error) {
     throw error;
   }
@@ -47,7 +47,7 @@ export async function deleteTaskAction(params: deleteParams, mode: Mode) {
   try {
     const user = await checkIfAuthed();
     await serverClient(user).task.delete[mode]({ ...params });
-    revalidatePath("/dashboard/tasks");
+    revalidatePath("/tasks");
   } catch (error) {
     throw error;
   }
