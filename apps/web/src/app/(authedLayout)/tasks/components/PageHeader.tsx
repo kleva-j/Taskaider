@@ -32,7 +32,7 @@ export const PageHeader = () => {
                 className="ml-auto rounded-full"
                 asChild
               >
-                <Link href="/dashboard/tasks/new">
+                <Link href="/tasks/new">
                   <>
                     <PlusIcon className="h-4 w-4" />
                     <span className="sr-only">New task</span>

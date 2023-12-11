@@ -3,9 +3,9 @@
 import { DataTableColumnHeader } from "@/tasks/components/TableColumnHeader";
 import { DataTableRowActions } from "@/tasks/components/TableRowActions";
 import { labels, priorities, statuses } from "@/tasks/_data";
-import { Task } from "@/app/dashboard/tasks/_data/schema";
 import { Status, Priority, StatusEnum } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { Task } from "@/tasks/_data/schema";
 import { Badge, Checkbox, cn } from "ui";
 
 export const columns: ColumnDef<Task>[] = [

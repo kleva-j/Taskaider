@@ -1,9 +1,9 @@
 "use client";
 
-import { labels, priorities } from "@/app/dashboard/tasks/_data";
-import { taskSchema } from "@/app/dashboard/tasks/_data/schema";
 import { editTaskAction as updateTask } from "@/app/actions";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { labels, priorities } from "@/tasks/_data";
+import { taskSchema } from "@/tasks/_data/schema";
 import { Row } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -82,7 +82,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem asChild>
           <Link
             href={{
-              pathname: "/dashboard/tasks/edit",
+              pathname: "/tasks/edit",
               query: { id, title, status, priority },
             }}
           >
@@ -129,7 +129,7 @@ export function DataTableRowActions<TData>({
         >
           <Link
             href={{
-              pathname: "/dashboard/tasks/delete",
+              pathname: "/tasks/delete",
               query: { id },
             }}
           >

@@ -1,5 +1,5 @@
-import { DataTable } from "@/app/dashboard/tasks/components/DataTable";
-import { columns } from "@/app/dashboard/tasks/components/Column";
+import { DataTable } from "@/tasks/components/DataTable";
+import { columns } from "@/tasks/components/Column";
 import { checkIfAuthed } from "@/lib/auth";
 import { serverClient } from "@/server";
 import { FC } from "react";

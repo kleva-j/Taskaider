@@ -1,6 +1,6 @@
-import { MainContent } from "@/app/dashboard/tasks/components/MainContent";
-import { PageHeader } from "@/app/dashboard/tasks/components/PageHeader";
 import { TaskContextProvider } from "@/context/task-provider";
+import { MainContent } from "@/tasks/components/MainContent";
+import { PageHeader } from "@/tasks/components/PageHeader";
 
 export default async function () {
   return (

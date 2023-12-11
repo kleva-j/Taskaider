@@ -1,8 +1,8 @@
 "use client";
 
 import { SelectedEmailColumn } from "@/inbox/components/SelectedEmailColumn";
-import { CreateNewInbox } from "@/app/dashboard/inbox/components/NewInbox";
 import { UseInboxContext } from "@/inbox/components/InboxContext";
+import { CreateNewInbox } from "@/inbox/components/NewInbox";
 import { emailSchema } from "@/lib/typeSchema";
 import { z } from "zod";
 

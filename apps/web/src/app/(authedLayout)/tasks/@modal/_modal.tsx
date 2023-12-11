@@ -1,8 +1,8 @@
 "use client";
 
-import { AddNewTask } from "@/app/dashboard/tasks/components/AddNewTask";
 import { DialogContent, DialogHeader, DialogTitle, Dialog } from "ui";
 import { useRouter, useSearchParams } from "next/navigation";
+import { AddNewTask } from "@/tasks/components/AddNewTask";
 import { Label, PriorityEnum, StatusEnum } from "@/types";
 import { AddTaskInputType } from "@taskaider/api";
 
