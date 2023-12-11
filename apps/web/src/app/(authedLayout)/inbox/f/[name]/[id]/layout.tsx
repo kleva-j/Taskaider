@@ -14,7 +14,7 @@ export default function PageLayout({ children }: PropsWithChildren) {
           title="Go back"
           asChild
         >
-          <Link href="/dashboard/inbox/f/inbox/">
+          <Link href="/inbox/f/inbox/">
             <ChevronLeft size="18" />
           </Link>
         </Button>

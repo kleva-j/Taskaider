@@ -1,7 +1,9 @@
 "use client";
 
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import { Meeting } from "@/calendar/components/Meetings";
 import { useState } from "react";
+import { Button, cn } from "ui";
 import {
   eachDayOfInterval,
   startOfToday,
@@ -16,8 +18,6 @@ import {
   parse,
   add,
 } from "date-fns";
-import { Meeting } from "../_components/Meetings";
-import { Button, cn } from "ui";
 
 const meetings = [
   {

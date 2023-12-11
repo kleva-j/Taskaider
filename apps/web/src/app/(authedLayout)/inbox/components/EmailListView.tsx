@@ -14,9 +14,7 @@ export const EmailListView = ({ emails }: { emails: EmailListType }) => {
           <li
             key={id}
             className="p-4 hover:bg-accent cursor-pointer flex overflow-hidden items-start gap-x-3"
-            onClick={() =>
-              router.push(`/dashboard/inbox/f/${params.name}/${id}`)
-            }
+            onClick={() => router.push(`/inbox/f/${params.name}/${id}`)}
           >
             <Avatar className="h-9 w-9">
               <AvatarImage src={recipient.avatar} alt="Avatar" />
