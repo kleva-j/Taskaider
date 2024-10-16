@@ -8,7 +8,7 @@
     "push": "drizzle-kit push:pg",
     "migrate": "tsx src/migrate.ts",
     "with-env": "dotenv -e .env --",
-    "dev": "pnpm with-env drizzle-kit studio --port 5556",
+    "devs": "pnpm with-env drizzle-kit studio --port 5556",
     "seed": "tsx src/seed.ts",
     "reset": "tsx src/reset.ts",
     "db:prepare": "pnpm reset & pnpm migrate & pnpm seed"
