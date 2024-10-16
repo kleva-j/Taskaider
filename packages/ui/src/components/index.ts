@@ -8,6 +8,7 @@ export * from "@/components/scroll-area";
 export * from "@/components/collapsible";
 export * from "@/components/hover-card";
 export * from "@/components/accordion";
+export * from "@/components/resizable";
 export * from "@/components/separator";
 export * from "@/components/textarea";
 export * from "@/components/checkbox";

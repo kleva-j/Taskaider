@@ -18,7 +18,7 @@ import {
 
 import { useUser, useClerk } from "@clerk/nextjs";
 
-export default function UserProfile() {
+export function UserProfile() {
   const { isLoaded, isSignedIn, user } = useUser();
   const { signOut } = useClerk();
 

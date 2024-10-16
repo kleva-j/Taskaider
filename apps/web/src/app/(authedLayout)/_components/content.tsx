@@ -1,57 +1,68 @@
 "use client";
 
-import UserProfile from "@/components/sidebar/user-profile";
-import NavItem from "@/components/sidebar/nav-item";
+import { type PropsWithChildren, useState } from "react";
 
-import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "ui";
-import { usePathname } from "next/navigation";
-import { LayoutGroup } from "framer-motion";
+import { NavLinks } from "@/lib/siteconfig";
+import { Nav } from "@/authedLayout/nav";
 import {
-  FolderKanban,
-  CalendarDays,
-  ListTodo,
-  Home,
-  Inbox,
-} from "lucide-react";
+  ResizablePanelGroup,
+  TooltipProvider,
+  ResizableHandle,
+  ResizablePanel,
+  cn,
+} from "ui";
 
-const navItems = {
-  "/dashboard": { name: "dashboard", icon: Home, label: "home" },
-  "/projects": { name: "projects", icon: FolderKanban, label: "projects" },
-  "/tasks": { name: "tasks", icon: ListTodo, label: "tasks" },
-  "/calendar": { name: "calendar", icon: CalendarDays, label: "Calendar" },
-  "/inbox": { name: "inbox", icon: Inbox, label: "Inbox" },
+type Props = PropsWithChildren & {
+  defaultCollapsed: boolean;
+  defaultLayout: number[];
+  navCollapsedSize: number;
 };
 
-export default function Sidebar(): JSX.Element {
-  let pathname = usePathname() || "/";
+export const Content = ({
+  defaultCollapsed = true,
+  navCollapsedSize,
+  children,
+}: Props) => {
+  const [isCollapsed, setCollapsed] = useState(defaultCollapsed);
+
+  const handleCollapse = () => {
+    const collapsed = !isCollapsed;
+    setCollapsed(() => collapsed);
+    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+      collapsed,
+    )}`;
+  };
+
+  const handleLayoutChange = (sizes: number[]) => {
+    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`;
+  };
 
   return (
-    <aside className="w-12 flex flex-col justify-between items-center py-2">
-      <TooltipProvider delayDuration={800} skipDelayDuration={500}>
-        <LayoutGroup>
-          <nav className="flex flex-col gap-y-3 items-center">
-            {Object.entries(navItems).map(([path, { name, icon, label }]) => {
-              const props = { name, icon, label, path };
-              return (
-                <Tooltip key={path}>
-                  <TooltipTrigger>
-                    <NavItem isActive={path === pathname} {...props} />
-                  </TooltipTrigger>
-                  <TooltipContent
-                    side="right"
-                    className="capitalize rounded bg-secondary text-primary-background"
-                  >
-                    {label}
-                  </TooltipContent>
-                </Tooltip>
-              );
-            })}
-          </nav>
-        </LayoutGroup>
-        <nav className="py-2">
-          <UserProfile />
-        </nav>
-      </TooltipProvider>
-    </aside>
+    <TooltipProvider delayDuration={0}>
+      <ResizablePanelGroup
+        direction="horizontal"
+        onLayout={handleLayoutChange}
+        className="h-full items-stretch"
+      >
+        <ResizablePanel
+          defaultSize={10}
+          collapsedSize={navCollapsedSize}
+          collapsible={true}
+          minSize={3}
+          maxSize={10}
+          onCollapse={handleCollapse}
+          className={cn(
+            isCollapsed &&
+              "min-w-[50px] transition-all duration-300 ease-in-out",
+          )}
+        >
+          <Nav links={NavLinks} isCollapsed={isCollapsed} />
+        </ResizablePanel>
+
+        <ResizableHandle withHandle />
+
+        <ResizablePanel defaultSize={80}>{children}</ResizablePanel>
+      </ResizablePanelGroup>
+    </TooltipProvider>
   );
-}
+};

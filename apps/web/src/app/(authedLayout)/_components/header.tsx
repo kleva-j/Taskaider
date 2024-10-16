@@ -2,7 +2,7 @@
 
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
-export default function Header() {
+export function Header() {
   return (
     <header className="flex justify-between mx-auto w-full px-4 h-12 items-center">
       <span className="text-sm">LOGO</span>
